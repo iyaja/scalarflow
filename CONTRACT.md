@@ -46,7 +46,7 @@
 
 2. The simplest way to distribute the workload is to divide workload into four parts according to number of teammates. 
 
-3. In order to deal with the unexpected complications or unforeseen work, we should make plan of each week. And before starting doing the task of the week, we should discuss on the team meeting and figure out what kind of tasks should be finished in the week and estimate each task’s effort which should be taken ([software development effort estimation]([https://en.wikipedia.org/wiki/Software_development_effort_estimation#:~:text=In%20software%20development%2C%20effort%20estimation,incomplete%2C%20uncertain%20and%20noisy%20input](https://en.wikipedia.org/wiki/Software_development_effort_estimation#:~:text=In software development%2C effort estimation,incomplete%2C uncertain and noisy input))). 
+3. In order to deal with the unexpected complications or unforeseen work, we should make plan of each week. And before starting doing the task of the week, we should discuss on the team meeting and figure out what kind of tasks should be finished in the week and estimate each task’s effort which should be taken in accordance to [software development effort estimation](https://en.wikipedia.org/wiki/Software_development_effort_estimation).
 
 4. The teammate who come up with a lot of ideas should support other teammates because of other teammates’ knowledge limitation. 
 
