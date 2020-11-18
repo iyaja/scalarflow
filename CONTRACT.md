@@ -3,7 +3,7 @@
 | Name                     | Email                 | NetID    | Signature |
 | ------------------------ | --------------------- | -------- | --------- |
 | Ajay Uppili Arasanipalai | aua2@illinois.edu     | aua2     |           |
-|                          |                       |          |           |
+|                          | cang4@illinois.edu    | cang4    |           |
 | Shellyn W. Tunggara      | shellyn2@illinois.edu | shellyn2 |           |
 | Adam Zeng                | adamz4@illinois.edu   | adamz4   |           |
 
