@@ -8,7 +8,8 @@
 #include <string>
 #include <utility> // import pair
 
-using std::string
+using std::string; 
+using std::pair;
 
 typedef pair<string, string> Vertex; // first means label of vertex, second means operator stored in the vertex
 
@@ -49,7 +50,7 @@ class Edge {
     /**
     * Default constructor.
     */
-    Edge(): source(""), dest(""), label(""), operand(0.0)
+    Edge(): source("", ""), dest("", ""), label(""), operand(0.0)
     { /* nothing */
     }
 
@@ -64,17 +65,17 @@ class Edge {
     /**
     * Gets operands stored in edge
     */
-    string getOperand() const 
+    double getOperand() const 
     {
-        return this->operand;
+        return operand;
     }
 
     /** 
     * Sets operands 
     */
-    string setOperand(double oper)
+    void setOperand(double oper)
     {
-        this->operand = oper;
+        operand = oper;
     }
 
     /**
