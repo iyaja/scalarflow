@@ -35,6 +35,11 @@ class Graph {
 public:
     /**
      * Constructor to create an empty graph.
+     */
+     Graph();
+
+    /**
+     * Constructor to create an empty graph.
      * @param weighted - specifies whether the graph is a weighted graph or
      *  not
      */
@@ -57,14 +62,18 @@ public:
      */
     Graph(bool weighted, int numVertices, unsigned long seed);
 
-
+    /**
+     * Checks if the given vertex exists.
+     * @return - if Vertex exists, true
+     *         - if Vertex doesn't exist, return false
+     */
+    bool vertexExists (Vertex v) const;
 
     /**
      * Inserts a new vertex into the graph and initializes its label as "".
      * @param v - the name for the vertex
      */
     void insertVertex(Vertex v);
-
 
     /**
      * Removes a given vertex from the graph.
@@ -73,6 +82,32 @@ public:
      *         - if not, return InvalidVertex;
      */
     Vertex removeVertex(Vertex v);
+
+     /**
+     * Checks if edge exists between two vertices exists.
+     * @return - if Edge exists, true
+     *         - if Edge doesn't exist, return false
+     */
+    bool edgeExists(Vertex source, Vertex destination) const;
+
+     /**
+     * Inserts an edge between two vertices.
+     * A boolean is returned for use with the random graph generation.
+     * Hence, an error is not thrown when it fails to insert an edge.
+     * @param source - one vertex the edge is connected to
+     * @param destination - the other vertex the edge is connected to
+     * @return whether inserting the edge was successful
+     */
+    bool insertEdge(Vertex source, Vertex destination);
+
+    /**
+     * Removes the edge between two vertices.
+     * @param source - one vertex the edge is connected to
+     * @param destination - the other vertex the edge is connected to
+     * @return - if edge exists, remove it and return removed edge
+     *         - if not, return InvalidEdge
+     */
+    Edge removeEdge(Vertex source, Vertex destination);
 
 
 

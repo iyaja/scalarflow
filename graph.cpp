@@ -6,6 +6,10 @@ const int Graph::InvalidWeight = INT_MIN;
 const string Graph:: InvalidLabel = "_CS225INVALIDLABEL";
 const Edge Graph::InvalidEdge = Edge(Graph::InvalidVertex, Graph::InvalidVertex, Graph::InvalidWeight, Graph::InvalidLabel, 0.0);
 
+Graph::Graph() : weighted(false), directed(false), random(Random(0))
+{
+}
+
 Graph::Graph(bool weighted) : weighted(weighted), directed(false), random(Random(0))
 {
 }
@@ -34,14 +38,21 @@ Graph::Graph(bool weighted, bool directed) : weighted(weighted),directed(directe
 
 
 
-void Graph::insertVertex(Vertex v) {
+bool Graph::vertexExists(Vertex v) const
+{
+    return assertVertexExists(v, "");
+}
+
+void Graph::insertVertex(Vertex v) 
+{
     // will overwrite if old stuff was there
     removeVertex(v);
     // make it empty again
     adjacency_list[v] = unordered_map<Vertex, Edge, pair_hash>();
 }
 
-Vertex Graph::removeVertex(Vertex v) {
+Vertex Graph::removeVertex(Vertex v) 
+{
     if(adjacency_list.find(v) != adjacency_list.end()) {
         if(!directed){
             for (auto it = adjacency_list[v].begin(); it != adjacency_list[v].end(); it++)
@@ -53,7 +64,6 @@ Vertex Graph::removeVertex(Vertex v) {
             return v;
         }
         
-
         adjacency_list.erase(v);
         for(auto it2 = adjacency_list.begin(); it2 != adjacency_list.end(); it2++) {
             Vertex u = it2->first;
@@ -65,6 +75,53 @@ Vertex Graph::removeVertex(Vertex v) {
     }
 
     return InvalidVertex;
+}
+
+bool Graph::edgeExists(Vertex source, Vertex destination) const
+{
+    return assertEdgeExists(source, destination, "");
+}
+
+bool Graph::insertEdge(Vertex source, Vertex destination) 
+{
+    if(adjacency_list.find(source)!= adjacency_list.end() 
+    && adjacency_list[source].find(destination)!= adjacency_list[source].end())
+    {
+        //edge already exit
+        return false;
+    }
+
+    if(adjacency_list.find(source)==adjacency_list.end())
+    {
+        adjacency_list[source] = unordered_map<Vertex, Edge, pair_hash>();
+    }
+
+     //source vertex exists
+    adjacency_list[source][destination] = Edge(source, destination);
+    if(!directed)
+    {
+        if(adjacency_list.find(destination)== adjacency_list.end())
+        {
+            adjacency_list[destination] = unordered_map<Vertex, Edge, pair_hash>();
+        }
+        adjacency_list[destination][source] = Edge(source, destination);
+    }
+
+    return true;
+}
+
+Edge Graph::removeEdge(Vertex source, Vertex destination)
+{
+    if(assertEdgeExists(source, destination, __func__) == false)
+        return InvalidEdge;
+    Edge e = adjacency_list[source][destination];
+    adjacency_list[source].erase(destination);
+    // if undirected, remove the corresponding edge
+    if(!directed)
+    {
+        adjacency_list[destination].erase(source);
+    }
+    return e;
 }
 
 

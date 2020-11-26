@@ -6,11 +6,40 @@
 
 #include <iostream>
 
-TEST_CASE("test graph insertVertex", "[weight=1][part=1]") {
-    Graph g;
-    Vertex pair<string, string>();
-    REQUIRE( g.vertexExists("p1-10") );
+TEST_CASE("test graph insertVertex") {
+    Graph g(false, true);
+    Vertex testVertex("test_label", "+");
+    g.insertVertex(testVertex);
+    REQUIRE( g.vertexExists(testVertex) );
 }
+
+TEST_CASE("test graph removeVertex") {
+    Graph g(false, true);
+    Vertex testVertex("test_label", "+");
+    g.insertVertex(testVertex);
+    g.removeVertex(testVertex);
+    REQUIRE( !g.vertexExists(testVertex) );
+}
+
+TEST_CASE("test graph insertEdge") {
+    Graph g(false, true);
+    Vertex source("test_source", "+");
+    Vertex dest("test_dest", "*");
+
+    g.insertEdge(source, dest);
+    REQUIRE( g.edgeExists(source, dest) );
+}
+
+TEST_CASE("test graph removeEdge") {
+    Graph g(false, true);
+    Vertex source("test_source", "+");
+    Vertex dest("test_dest", "*");
+
+    g.insertEdge(source, dest);
+    g.removeEdge(source, dest);
+    REQUIRE( !g.edgeExists(source, dest) );
+}
+
 
 
 TEST_CASE("test_edge_constructor") {
