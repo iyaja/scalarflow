@@ -92,7 +92,7 @@ class Edge {
     */
     double getOperand() const 
     {
-        return this->operand;
+        return operand;
     }
 
     /** 
@@ -100,7 +100,7 @@ class Edge {
     */
     void setOperand(double oper)
     {
-        this->operand = oper;
+        operand = oper;
     }
 
 
