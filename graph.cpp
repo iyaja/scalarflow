@@ -19,23 +19,56 @@ Graph::Graph(bool weighted, bool directed) : weighted(weighted),directed(directe
 {
 }
 
+vector<Vertex> Graph::getAdjacentVertices(Vertex source) const
+{
+    auto lookup = adjacency_list.find(source);
 
-// Graph::Graph(bool weighted, int numVertices, unsigned long seed)
-//     :weighted(weighted),
-//       directed(false),
-//      random(Random(seed)) 
-// {
-//     if(numVertices < 2) {
-//         error("numVertices too low");
-//         exit(1);
-//     }
+    if(lookup == adjacency_list.end()) {
+        return vector<Vertex>();
+    }
+    else {
+        vector<Vertex> vertex_list;
+        unordered_map<Vertex, Edge, pair_hash> & map = adjacency_list[source];
+        for(auto it = map.begin(); it != map.end(); it++) {
+            vertex_list.push_back(it->first);
+        }
+        return vertex_list;
+    }
+}
 
-//     vector<Vertex> vertices;
-//     for(int i = 0; i < numVertices; i++) {
-//         insertVertex(to_string(i));
-//         vertices.
-//     }
-// }
+vector<Edge> Graph::getAdjacentInEdges(Vertex source) const
+{
+
+    vector<Edge> edge_list;
+
+    // get adjacent vertices
+    // 1. if adjacent vertices don't exist, return empty vector
+    // 2. if adjacent vertices exists
+    // 2.1 get unordered_map adjacent_list[adjacent_vertex]
+    // 2.2 iterate through the entry,
+    // 2.2.1 if find the source Vertex, add corresponding edge to edge_list
+    
+    vector<Vertex> adjacent_vertices = getAdjacentVertices(source);
+    if(adjacent_vertices.empty()) {
+        return vector<Edge>();
+    } 
+    else {
+        for(Vertex vertex : adjacent_vertices) {
+            Edge edge = adjacency_list[vertex][source];
+            if(edge.getExisted() && edge.source == vertex && edge.dest == source) {
+                edge_list.push_back(edge);
+            }
+
+            // unordered_map<Vertex, Edge, pair_hash> & map = adjacency_list[vertex];
+            // for(auto it = map.begin(); it != map.end(); it++) {
+            //     if(it->first == source && it->second.getExisted()) {
+            //         edge_list.push_back(it->second);
+            //     }
+            // }
+        }
+        return edge_list;
+    }
+}
 
 Edge Graph::getEdge(Vertex source, Vertex destination) const 
 {
@@ -157,14 +190,16 @@ bool Graph::insertEdge(Vertex source, Vertex destination)
 
      //source vertex exists
     adjacency_list[source][destination] = Edge(source, destination);
-    if(!directed)
-    {
+    // if(!directed)
+    // {
         if(adjacency_list.find(destination)== adjacency_list.end())
         {
             adjacency_list[destination] = unordered_map<Vertex, Edge, pair_hash>();
         }
-        adjacency_list[destination][source] = Edge(source, destination);
-    }
+        Edge edge(destination, source);
+        edge.setExisted(false);
+        adjacency_list[destination][source] = edge;
+    // }
 
     return true;
 }
@@ -176,7 +211,7 @@ Edge Graph::removeEdge(Vertex source, Vertex destination)
     Edge e = adjacency_list[source][destination];
     adjacency_list[source].erase(destination);
     // if undirected, remove the corresponding edge
-    if(!directed)
+    if(!directed || (directed && !adjacency_list[destination][source].getExisted()))
     {
         adjacency_list[destination].erase(source);
     }

@@ -43,7 +43,7 @@ class Edge {
     * @param v - the other vertex it is connected to
     */
     Edge(Vertex u, Vertex v)
-        : source(u), dest(v), label(""), operand(0.0), weight(-1)
+        : source(u), dest(v), label(""), operand(0.0), weight(-1), existed(true)
     { /* nothing */
     }
     
@@ -55,7 +55,7 @@ class Edge {
     * @param oper - the operand stored in edge
     */
     Edge(Vertex u, Vertex v, string lbl, double oper)
-        : source(u), dest(v), label(lbl), operand(oper), weight(-1)
+        : source(u), dest(v), label(lbl), operand(oper), weight(-1), existed(true)
     { /* nothing */
     }
 
@@ -68,14 +68,14 @@ class Edge {
     * @param wei - the weight of the edge
     */
     Edge(Vertex u, Vertex v, int wei, string lbl, double oper)
-        : source(u), dest(v), label(lbl), operand(oper), weight(wei)
+        : source(u), dest(v), label(lbl), operand(oper), weight(wei), existed(true)
     { /* nothing */
     }
 
     /**
     * Default constructor.
     */
-    Edge(): source(pair<string,string>("","")), dest(pair<string,string>("","")), label(""), operand(0.0), weight(-1)
+    Edge(): source(pair<string,string>("","")), dest(pair<string,string>("","")), label(""), operand(0.0), weight(-1), existed(true)
     { /* nothing */
     }
 
@@ -88,7 +88,7 @@ class Edge {
     }
 
     /**
-    * Gets operands stored in edge
+    * Gets operand stored in edge
     */
     double getOperand() const 
     {
@@ -96,7 +96,7 @@ class Edge {
     }
 
     /** 
-    * Sets operands 
+    * Sets operand
     */
     void setOperand(double oper)
     {
@@ -112,6 +112,21 @@ class Edge {
         return this->weight;
     }
 
+    /** 
+    * Sets existed 
+    */
+    void setExisted(bool exi) 
+    {
+        existed = exi;
+    }
+
+    /**
+     * Gets existed 
+     */
+    bool getExisted() const
+    {
+        return this->existed;
+    }
 
     /**
     * Compares two edges' source and dest.
@@ -144,6 +159,7 @@ class Edge {
         string label; /**< The edge label **/
         double operand; /** operands stored **/
         int weight; /**< The edge weight (if in a weighed graph) **/
+        bool existed; /**< true means the edge exist | false means just a virtual edge for helping find the adjacent vertices **/
 
 };
 

@@ -62,11 +62,27 @@ public:
      */
     Graph(bool weighted, int numVertices, unsigned long seed);
 
-    // getAdjacentVertex(Vertex)
+    /**
+     * Gets all adjacent vertices to the parameter vertex.
+     * @param source - vertex to get neighbors from
+     * @return a vector of vertices
+     */
+    vector<Vertex> getAdjacentVertices(Vertex source) const; 
 
-    // getAdjacentInEdge(Vertex)
+    /**
+     * Gets all adjacent edges which points to the parameter vertex.
+     * @param source - vertex to get edges from
+     * @return a vector of edges
+     */
+    vector<Edge> getAdjacentInEdges(Vertex source) const;
 
-    // getAdjacentOutEdge(Vertex)
+    // setVertexOperator() 
+
+    // getAdjacentOutEdges(Vertex)
+
+    // getAdjacentOutVertices(Vertex)
+
+    // getAdjacentInVertices(Vertex)
 
     /**
      * Gets an edge between two vertices.

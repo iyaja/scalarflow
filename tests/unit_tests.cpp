@@ -6,6 +6,16 @@
 
 #include <iostream>
 
+bool ifEdgeInEdges(vector<Edge> edges, Edge source) {
+    bool found = false;
+    for(Edge edge:edges) {
+        if(edge == source) {
+            found = true;
+        }
+    }
+    return found;
+}
+
 TEST_CASE("test graph insertVertex") {
     Graph g(false, true);
     Vertex testVertex("test_label", "+");
@@ -81,6 +91,62 @@ TEST_CASE("test graph getEdges") {
     REQUIRE( edgeSet.find(g.getEdge(source3, dest3)) != edgeSet.end() );
 }
 
+TEST_CASE("test graph getAdjacentVertices") {
+    Graph g(false, true);
+    Vertex source1("test_source1", "+");
+    Vertex dest1("test_dest1", "*");
+
+    Vertex source2("test_source2", "+");
+    Vertex dest2("test_dest2", "*");
+
+    Vertex source3("test_source3", "+");
+    Vertex dest3("test_dest3", "*");
+
+    g.insertEdge(source1, source2);
+    g.insertEdge(source1, source3);
+    g.insertEdge(source1, dest1);
+    g.insertEdge(source1, dest2);
+    g.insertEdge(source1, dest3);
+
+    vector<Vertex> adjacent_vertices = g.getAdjacentVertices(source1);
+    // convert vector to set
+    set<Vertex> vertices_set;
+    for(Vertex vertex : adjacent_vertices) {
+        vertices_set.insert(vertex);
+    }
+
+    REQUIRE( vertices_set.find(source2) != vertices_set.end() );
+    REQUIRE( vertices_set.find(source3) != vertices_set.end() );
+    REQUIRE( vertices_set.find(dest1) != vertices_set.end() );
+    REQUIRE( vertices_set.find(dest2) != vertices_set.end() );
+    REQUIRE( vertices_set.find(dest3) != vertices_set.end() );
+}
+
+TEST_CASE("test graph getAdjacentInEdges") {
+    Graph g(false, true);
+    Vertex in1("test_in1", "*");
+    Vertex in2("test_in2", "*");
+    Vertex center("test_center", "+");
+    Vertex out1("test_out1", "*");
+    Vertex out2("test_out2", "*");
+
+    g.insertEdge(in1, center);
+    g.insertEdge(in2, center);
+    g.insertEdge(center, out1);
+    g.insertEdge(center, out2);
+
+    vector<Edge> adjacent_in_edges = g.getAdjacentInEdges(center);
+    Edge inEdge1 = g.getEdge(in1, center);
+    Edge inEdge2 = g.getEdge(in2, center);
+    Edge outEdge1 = g.getEdge(center, out1);
+    Edge outEdge2 = g.getEdge(center, out2);
+
+    REQUIRE( adjacent_in_edges.size() == 2 );
+    REQUIRE( ifEdgeInEdges(adjacent_in_edges, inEdge1) );
+    REQUIRE( ifEdgeInEdges(adjacent_in_edges, inEdge2) );
+    REQUIRE( !ifEdgeInEdges(adjacent_in_edges, outEdge1) );
+    REQUIRE( !ifEdgeInEdges(adjacent_in_edges, outEdge2) );
+}
 
 
 TEST_CASE("test_edge_constructor") {
