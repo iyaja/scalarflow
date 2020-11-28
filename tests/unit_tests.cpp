@@ -40,6 +40,47 @@ TEST_CASE("test graph removeEdge") {
     REQUIRE( !g.edgeExists(source, dest) );
 }
 
+TEST_CASE("test graph setEdgeOperand") {
+    Graph g(false, true);
+    Vertex source("test_source", "+");
+    Vertex dest("test_dest", "*");
+
+    g.insertEdge(source, dest);
+    g.setEdgeOperand(source, dest, 123.123);
+    REQUIRE( g.edgeExists(source, dest) );
+    REQUIRE( g.getEdgeOperand(source, dest) == 123.123 );
+    REQUIRE( g.getEdge(source, dest).getOperand() == 123.123 );
+}
+
+TEST_CASE("test graph getEdges") {
+    Graph g(false, true);
+    Vertex source1("test_source1", "+");
+    Vertex dest1("test_dest1", "*");
+
+    Vertex source2("test_source2", "+");
+    Vertex dest2("test_dest2", "*");
+
+    Vertex source3("test_source3", "+");
+    Vertex dest3("test_dest3", "*");
+
+    g.insertEdge(source1, dest1);
+    g.insertEdge(source2, dest2);
+    g.insertEdge(source3, dest3);
+
+    // put all edges into the set
+    // find these three edges in the set
+    vector<Edge> edges = g.getEdges();
+    set<Edge> edgeSet;
+
+    for(Edge edge: edges) {
+        edgeSet.insert(edge);
+    }
+
+    REQUIRE( edgeSet.find(g.getEdge(source1, dest1)) != edgeSet.end() );
+    REQUIRE( edgeSet.find(g.getEdge(source2, dest2)) != edgeSet.end() );
+    REQUIRE( edgeSet.find(g.getEdge(source3, dest3)) != edgeSet.end() );
+}
+
 
 
 TEST_CASE("test_edge_constructor") {

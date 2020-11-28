@@ -62,6 +62,27 @@ public:
      */
     Graph(bool weighted, int numVertices, unsigned long seed);
 
+    // getAdjacentVertex(Vertex)
+
+    // getAdjacentInEdge(Vertex)
+
+    // getAdjacentOutEdge(Vertex)
+
+    /**
+     * Gets an edge between two vertices.
+     * @param source - one vertex the edge is connected to
+     * @param destination - the other vertex the edge is connected to
+     * @return - if exist, return the corresponding edge
+     *         - if edge doesn't exist, return Edge()
+     */
+    Edge getEdge(Vertex source, Vertex destination) const;
+
+    /**
+     * Gets all the edges in the graph.
+     * @return a vector of all the edges in the graph
+     */
+    vector<Edge> getEdges() const;
+
     /**
      * Checks if the given vertex exists.
      * @return - if Vertex exists, true
@@ -82,6 +103,33 @@ public:
      *         - if not, return InvalidVertex;
      */
     Vertex removeVertex(Vertex v);
+
+     /**
+     * Gets the edge operand of the edge between vertices u and v.
+     * @param source - one vertex the edge is connected to
+     * @param destination - the other vertex the edge is connected to
+     * @return - if edge exists, return edge operand
+     *         - if edge doesn't exist, return InvalidOperand
+     */
+    double getEdgeOperand(Vertex source, Vertex destination) const;
+
+    /**
+     * Gets the edge label of the edge between vertices u and v.
+     * @param source - one vertex the edge is connected to
+     * @param destination - the other vertex the edge is connected to
+     * @return - if edge exists, return edge label
+     *         - if edge doesn't exist, return InvalidLabel
+     */
+    string getEdgeLabel(Vertex source, Vertex destination) const;
+
+    /**
+     * Gets the weight of the edge between two vertices.
+     * @param source - one vertex the edge is connected to
+     * @param destination - the other vertex the edge is connected to
+     * @return - if edge exists, return edge wright
+     *         - if doesn't, return InvalidWeight
+     */
+    int getEdgeWeight(Vertex source, Vertex destination) const;
 
      /**
      * Checks if edge exists between two vertices exists.
@@ -109,12 +157,33 @@ public:
      */
     Edge removeEdge(Vertex source, Vertex destination);
 
+    /**
+     * Sets the operand of the edge between two vertices.
+     * @param source - one vertex the edge is connected to
+     * @param destination - the other vertex the edge is connected to
+     * @param weight - the operand to set to the edge
+     * @return - if edge exists, set edge weight and return  edge with new operand
+     *         - if not, return InvalidEdge
+     */
+    Edge setEdgeOperand(Vertex source, Vertex destination, double operand);
+
+    /**
+     * Sets the weight of the edge between two vertices.
+     * @param source - one vertex the edge is connected to
+     * @param destination - the other vertex the edge is connected to
+     * @param weight - the weight to set to the edge
+     * @return - if edge exists, set edge weight and return  edge with new weight
+     *         - if not, return InvalidEdge
+     */
+    Edge setEdgeWeight(Vertex source, Vertex destination, int weight);
+
 
 
     const static Vertex InvalidVertex;
     const static Edge InvalidEdge;
     const static int InvalidWeight;
     const static string InvalidLabel;
+    const static double InvalidOperand;
 
 private:
 

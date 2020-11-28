@@ -3,8 +3,9 @@
 // const Vertex Graph::InvalidVertex = "_CS225INVALIDVERTEX";
 const Vertex Graph::InvalidVertex = pair<string,string>("_CS225INVALIDVERTEX", "");
 const int Graph::InvalidWeight = INT_MIN;
+const double Graph::InvalidOperand = INT_MIN;
 const string Graph:: InvalidLabel = "_CS225INVALIDLABEL";
-const Edge Graph::InvalidEdge = Edge(Graph::InvalidVertex, Graph::InvalidVertex, Graph::InvalidWeight, Graph::InvalidLabel, 0.0);
+const Edge Graph::InvalidEdge = Edge(Graph::InvalidVertex, Graph::InvalidVertex, Graph::InvalidWeight, Graph::InvalidLabel, Graph::InvalidOperand);
 
 Graph::Graph() : weighted(false), directed(false), random(Random(0))
 {
@@ -36,7 +37,41 @@ Graph::Graph(bool weighted, bool directed) : weighted(weighted),directed(directe
 //     }
 // }
 
+Edge Graph::getEdge(Vertex source, Vertex destination) const 
+{
+    if(assertEdgeExists(source, destination, __func__) == false)
+        return Edge();
+    
+    Edge ret = adjacency_list[source][destination];
+    return ret;
+}
 
+vector<Edge> Graph::getEdges() const
+{
+    if(adjacency_list.empty()) {
+        return vector<Edge>();
+    }
+
+    vector<Edge> ret;
+    set<pair<Vertex,Vertex>> seen;
+
+    for(auto it = adjacency_list.begin(); it != adjacency_list.end(); it++) {
+        Vertex source = it->first;
+        for(auto its = adjacency_list[source].begin(); its != adjacency_list[source].end(); ++its) {
+            Vertex destination = its->first;
+            if(seen.find(make_pair(source, destination)) == seen.end()) {
+                // this pair is never added to seen
+                ret.push_back(its->second);
+                seen.insert(make_pair(source, destination));
+                if(!directed) {
+                    seen.insert(make_pair(source, destination));
+                }
+            }
+        }
+    }
+
+    return ret;
+}
 
 bool Graph::vertexExists(Vertex v) const
 {
@@ -75,6 +110,30 @@ Vertex Graph::removeVertex(Vertex v)
     }
 
     return InvalidVertex;
+}
+
+double Graph::getEdgeOperand(Vertex source, Vertex destination) const 
+{
+    if(assertEdgeExists(source, destination, __func__) == false)
+        return InvalidOperand;
+    return adjacency_list[source][destination].getOperand();
+}
+
+string Graph::getEdgeLabel(Vertex source, Vertex destination) const
+{
+    if(assertEdgeExists(source, destination, __func__) == false)
+        return InvalidLabel;
+    return adjacency_list[source][destination].getLabel();
+}
+
+int Graph::getEdgeWeight(Vertex source, Vertex destination) const
+{
+    if (!weighted)
+        error("can't get edge weights on non-weighted graphs!");
+
+    if(assertEdgeExists(source, destination, __func__) == false)
+        return InvalidWeight;
+    return adjacency_list[source][destination].getWeight();
 }
 
 bool Graph::edgeExists(Vertex source, Vertex destination) const
@@ -124,6 +183,20 @@ Edge Graph::removeEdge(Vertex source, Vertex destination)
     return e;
 }
 
+Edge Graph::setEdgeOperand(Vertex source, Vertex destination, double operand) 
+{
+   if(assertEdgeExists(source, destination, __func__) == false)
+        return InvalidEdge;
+    Edge e = adjacency_list[source][destination];
+    Edge new_edge(source, destination, e.getLabel(), operand);
+    adjacency_list[source][destination] = new_edge;
+
+    if(!directed) {
+        Edge new_edge_reverse(destination, source, e.getLabel(), operand);
+        adjacency_list[destination][source] = new_edge_reverse;
+    }
+    return new_edge;
+}
 
 bool Graph::assertVertexExists(Vertex v, string functionName) const
 {
