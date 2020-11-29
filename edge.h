@@ -43,7 +43,7 @@ class Edge {
     * @param v - the other vertex it is connected to
     */
     Edge(Vertex u, Vertex v)
-        : source(u), dest(v), label(""), operand(0.0), weight(-1), existed(true)
+        : source(u), dest(v), label(""), operand(0.0), weight(-1), existed(true), assigned(false)
     { /* nothing */
     }
     
@@ -55,7 +55,7 @@ class Edge {
     * @param oper - the operand stored in edge
     */
     Edge(Vertex u, Vertex v, string lbl, double oper)
-        : source(u), dest(v), label(lbl), operand(oper), weight(-1), existed(true)
+        : source(u), dest(v), label(lbl), operand(oper), weight(-1), existed(true), assigned(false)
     { /* nothing */
     }
 
@@ -68,14 +68,14 @@ class Edge {
     * @param wei - the weight of the edge
     */
     Edge(Vertex u, Vertex v, int wei, string lbl, double oper)
-        : source(u), dest(v), label(lbl), operand(oper), weight(wei), existed(true)
+        : source(u), dest(v), label(lbl), operand(oper), weight(wei), existed(true), assigned(false)
     { /* nothing */
     }
 
     /**
     * Default constructor.
     */
-    Edge(): source(pair<string,string>("","")), dest(pair<string,string>("","")), label(""), operand(0.0), weight(-1), existed(true)
+    Edge(): source(pair<string,string>("","")), dest(pair<string,string>("","")), label(""), operand(0.0), weight(-1), existed(true), assigned(false)
     { /* nothing */
     }
 
@@ -100,6 +100,7 @@ class Edge {
     */
     void setOperand(double oper)
     {
+        assigned = true;
         operand = oper;
     }
 
@@ -126,6 +127,22 @@ class Edge {
     bool getExisted() const
     {
         return this->existed;
+    }
+
+    /**
+    * Gets assigned
+    */
+    bool getAssigned() const
+    {
+        return this->assigned;
+    }
+
+    /**
+    * Sets assigned
+    */
+    void setAssigned(bool assi)
+    {
+        assigned = assi;
     }
 
     /**
@@ -160,7 +177,7 @@ class Edge {
         double operand; /** operands stored **/
         int weight; /**< The edge weight (if in a weighed graph) **/
         bool existed; /**< true means the edge exist | false means just a virtual edge for helping find the adjacent vertices **/
-
+        bool assigned; /**< true means the edge has operand assigned before. | false means has no operand assigned before **/
 };
 
 

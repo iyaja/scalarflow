@@ -288,6 +288,7 @@ Edge Graph::setEdgeOperand(Vertex source, Vertex destination, double operand)
         return InvalidEdge;
     Edge e = adjacency_list[source][destination];
     Edge new_edge(source, destination, e.getLabel(), operand);
+    new_edge.setAssigned(true);
     adjacency_list[source][destination] = new_edge;
 
     if(!directed) {
@@ -297,10 +298,77 @@ Edge Graph::setEdgeOperand(Vertex source, Vertex destination, double operand)
     return new_edge;
 }
 
-void compute(Vertex startingVertex)
+void Graph::compute(Vertex startingVertex)
 {
     stack<Vertex> s;
+    s.push(startingVertex);
+    while(!s.empty()) {
+        computeInternal(s);
+    }
+}
+
+void Graph::computeInternal(stack<Vertex> &s) {
+    // top and pop the vertex
+    Vertex top = s.top();
+    s.pop();
+
+    vector<Vertex> adjacent_out_vertices = getAdjacentOutVertices(top);
     
+    // push all adjacent out vertices into stack
+    for( Vertex vertex : adjacent_out_vertices) {
+        s.push(vertex);
+    }
+
+    vector<Edge> adjacent_in_edges = getAdjacentInEdges(top);
+
+    bool isAllInEdgesAssigned = true;
+    vector<Vertex> unassigned_in_vertices;
+    for( Edge edge : adjacent_in_edges) {
+        if(!edge.getAssigned()) {
+            Vertex vertex = edge.source;
+            unassigned_in_vertices.push_back(vertex);
+            if(isAllInEdgesAssigned) {
+               isAllInEdgesAssigned = false; 
+            }
+        }
+    }
+
+    if(isAllInEdgesAssigned) {
+        vector<Edge> adjacent_out_edges = getAdjacentOutEdges(top);
+        if(top.second == "start") {
+            for(Edge edge : adjacent_out_edges) {
+                // assign out edges with result
+                setEdgeOperand(edge.source, edge.dest, edge.getOperand());
+            }
+        }
+        else {
+            double result = computeOutEdges(top);
+
+            for(Edge edge : adjacent_out_edges) {
+                // assign out edges with result
+                setEdgeOperand(edge.source, edge.dest, result);
+            }
+        }
+
+    } else { // some in edges are not assigned operand before
+        s.push(top);
+        for(auto unassigned_in_vertex : unassigned_in_vertices) {
+            s.push(unassigned_in_vertex);
+        }
+    }
+}
+
+double Graph::computeOutEdges(Vertex vertex) {
+    string operat = vertex.second;
+    vector<Edge> adjacent_in_edges = getAdjacentInEdges(vertex);
+
+    if(operat == "+") {
+        return adjacent_in_edges[0].getOperand() + adjacent_in_edges[1].getOperand();
+    }
+    if(operat == "*") {
+        return adjacent_in_edges[0].getOperand() * adjacent_in_edges[1].getOperand();
+    }
+    return double();
 }
 
 bool Graph::assertVertexExists(Vertex v, string functionName) const

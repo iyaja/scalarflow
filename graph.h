@@ -73,6 +73,13 @@ public:
      */
     Graph(bool weighted, int numVertices, unsigned long seed);
 
+    // /**
+    // * set vertex operator when the vertex is the vertex without out edges (end vertex)
+    // * @param vertex - the vertex without out edges
+    // * @param operand - the operator is going to be assigned to vertex
+    // */
+    // void setVertexOperator(Vertex vertex, string operand); 
+
     /**
      * Returns one vertex in the graph. This function can be used
      *  to find a random vertex with which to start a traversal.
@@ -100,8 +107,6 @@ public:
      * @return a vector of edges
      */
     vector<Edge> getAdjacentInEdges(Vertex source) const;
-
-    // setVertexOperator() 
 
     /**
     * Gets all adjacent edges which comes from the parameter vertex.
@@ -239,6 +244,13 @@ public:
     */
     void compute(Vertex startingVertex);
 
+
+    /**
+    * compute the out edges result according to in edges and operator of vertex
+    * @param vertex - one vertex where computation happens
+    */
+    double computeOutEdges(Vertex vertex);
+
     const static Vertex InvalidVertex;
     const static Edge InvalidEdge;
     const static int InvalidWeight;
@@ -278,4 +290,8 @@ private:
      * @param message - the error message that is printed
      */
     void error(string message) const;
+
+    void computeInternal(stack<Vertex> &s);
+
+  
 };
