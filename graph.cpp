@@ -58,16 +58,48 @@ vector<Edge> Graph::getAdjacentInEdges(Vertex source) const
             if(edge.getExisted() && edge.source == vertex && edge.dest == source) {
                 edge_list.push_back(edge);
             }
-
-            // unordered_map<Vertex, Edge, pair_hash> & map = adjacency_list[vertex];
-            // for(auto it = map.begin(); it != map.end(); it++) {
-            //     if(it->first == source && it->second.getExisted()) {
-            //         edge_list.push_back(it->second);
-            //     }
-            // }
         }
         return edge_list;
     }
+}
+
+vector<Edge> Graph::getAdjacentOutEdges(Vertex source) const
+{
+    vector<Edge> edge_list;
+
+    vector<Vertex> adjacent_vertices = getAdjacentVertices(source);
+    if(adjacent_vertices.empty()) {
+       return vector<Edge>();
+    }
+    else {
+         for(Vertex vertex : adjacent_vertices) {
+            Edge edge = adjacency_list[source][vertex];
+            if(edge.getExisted() && edge.source == source && edge.dest == vertex) {
+                edge_list.push_back(edge);
+            }
+        }
+        return edge_list;
+    }
+}
+
+vector<Vertex> Graph::getAdjacentOutVertices(Vertex source) const
+{
+    vector<Vertex> vertices_list;
+    vector<Edge> adjacent_out_edges = getAdjacentOutEdges(source);
+    for(Edge edge : adjacent_out_edges) {
+        vertices_list.push_back(edge.dest);
+    }
+    return vertices_list;
+}
+
+vector<Vertex> Graph::getAdjacentInVertices(Vertex source) const
+{
+    vector<Vertex> vertices_list;
+    vector<Edge> adjacent_in_edges = getAdjacentInEdges(source);
+    for(Edge edge : adjacent_in_edges) {
+        vertices_list.push_back(edge.source);
+    }
+    return vertices_list;
 }
 
 Edge Graph::getEdge(Vertex source, Vertex destination) const 

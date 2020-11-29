@@ -78,11 +78,26 @@ public:
 
     // setVertexOperator() 
 
-    // getAdjacentOutEdges(Vertex)
+    /**
+    * Gets all adjacent edges which comes from the parameter vertex.
+    * @param source - vertex to get edges from
+    * @return a vector of edges
+    */
+    vector<Edge> getAdjacentOutEdges(Vertex source) const;
 
-    // getAdjacentOutVertices(Vertex)
+    /**
+    * Gets all adjacent vertices which the direction of edge between source and vertex is from source to vertex
+    * @param source - vertex to get vertices from
+    * @return a vector of vertices
+    */
+    vector<Vertex> getAdjacentOutVertices(Vertex source) const;
 
-    // getAdjacentInVertices(Vertex)
+    /**
+    * Gets all adjacent vertices which the direction of edge between source and vertex is from vertex to source
+    * @param source - vertex to get vertices from
+    * @return a vector of vertices
+    */
+    vector<Vertex> getAdjacentInVertices(Vertex source) const;
 
     /**
      * Gets an edge between two vertices.

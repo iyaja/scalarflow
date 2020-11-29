@@ -6,10 +6,11 @@
 
 #include <iostream>
 
-bool ifEdgeInEdges(vector<Edge> edges, Edge source) {
+template <typename T>
+bool ifSourceInList(vector<T> list, T source) {
     bool found = false;
-    for(Edge edge:edges) {
-        if(edge == source) {
+    for(T elem:list) {
+        if(elem == source) {
             found = true;
         }
     }
@@ -142,12 +143,81 @@ TEST_CASE("test graph getAdjacentInEdges") {
     Edge outEdge2 = g.getEdge(center, out2);
 
     REQUIRE( adjacent_in_edges.size() == 2 );
-    REQUIRE( ifEdgeInEdges(adjacent_in_edges, inEdge1) );
-    REQUIRE( ifEdgeInEdges(adjacent_in_edges, inEdge2) );
-    REQUIRE( !ifEdgeInEdges(adjacent_in_edges, outEdge1) );
-    REQUIRE( !ifEdgeInEdges(adjacent_in_edges, outEdge2) );
+    REQUIRE( ifSourceInList<Edge>(adjacent_in_edges, inEdge1) );
+    REQUIRE( ifSourceInList<Edge>(adjacent_in_edges, inEdge2) );
+    REQUIRE( !ifSourceInList<Edge>(adjacent_in_edges, outEdge1) );
+    REQUIRE( !ifSourceInList<Edge>(adjacent_in_edges, outEdge2) );
 }
 
+TEST_CASE("test graph getAdjacentOutEdges") {
+    Graph g(false, true);
+    Vertex in1("test_in1", "*");
+    Vertex in2("test_in2", "*");
+    Vertex center("test_center", "+");
+    Vertex out1("test_out1", "*");
+    Vertex out2("test_out2", "*");
+
+    g.insertEdge(in1, center);
+    g.insertEdge(in2, center);
+    g.insertEdge(center, out1);
+    g.insertEdge(center, out2);
+
+    vector<Edge> adjacent_out_edges = g.getAdjacentOutEdges(center);
+    Edge inEdge1 = g.getEdge(in1, center);
+    Edge inEdge2 = g.getEdge(in2, center);
+    Edge outEdge1 = g.getEdge(center, out1);
+    Edge outEdge2 = g.getEdge(center, out2);
+
+    REQUIRE( adjacent_out_edges.size() == 2 );
+    REQUIRE( !ifSourceInList<Edge>(adjacent_out_edges, inEdge1) );
+    REQUIRE( !ifSourceInList<Edge>(adjacent_out_edges, inEdge2) );
+    REQUIRE( ifSourceInList<Edge>(adjacent_out_edges, outEdge1) );
+    REQUIRE( ifSourceInList<Edge>(adjacent_out_edges, outEdge2) );
+}
+
+TEST_CASE("test graph getAdjacentOutVertices") {
+    Graph g(false, true);
+    Vertex in1("test_in1", "*");
+    Vertex in2("test_in2", "*");
+    Vertex center("test_center", "+");
+    Vertex out1("test_out1", "*");
+    Vertex out2("test_out2", "*");
+
+    g.insertEdge(in1, center);
+    g.insertEdge(in2, center);
+    g.insertEdge(center, out1);
+    g.insertEdge(center, out2);
+
+    vector<Vertex> adjacent_out_vertices = g.getAdjacentOutVertices(center);
+
+    REQUIRE( adjacent_out_vertices.size() == 2 );
+    REQUIRE( !ifSourceInList<Vertex>(adjacent_out_vertices, in1) );
+    REQUIRE( !ifSourceInList<Vertex>(adjacent_out_vertices, in2) );
+    REQUIRE( ifSourceInList<Vertex>(adjacent_out_vertices, out1) );
+    REQUIRE( ifSourceInList<Vertex>(adjacent_out_vertices, out2) );
+}
+
+TEST_CASE("test graph getAdjacentInVertices") {
+    Graph g(false, true);
+    Vertex in1("test_in1", "*");
+    Vertex in2("test_in2", "*");
+    Vertex center("test_center", "+");
+    Vertex out1("test_out1", "*");
+    Vertex out2("test_out2", "*");
+
+    g.insertEdge(in1, center);
+    g.insertEdge(in2, center);
+    g.insertEdge(center, out1);
+    g.insertEdge(center, out2);
+
+    vector<Vertex> adjacent_out_vertices = g.getAdjacentInVertices(center);
+
+    REQUIRE( adjacent_out_vertices.size() == 2 );
+    REQUIRE( ifSourceInList<Vertex>(adjacent_out_vertices, in1) );
+    REQUIRE( ifSourceInList<Vertex>(adjacent_out_vertices, in2) );
+    REQUIRE( !ifSourceInList<Vertex>(adjacent_out_vertices, out1) );
+    REQUIRE( !ifSourceInList<Vertex>(adjacent_out_vertices, out2) );
+}
 
 TEST_CASE("test_edge_constructor") {
     SECTION("test_default_constructor") {
