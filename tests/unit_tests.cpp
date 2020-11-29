@@ -219,6 +219,26 @@ TEST_CASE("test graph getAdjacentInVertices") {
     REQUIRE( !ifSourceInList<Vertex>(adjacent_out_vertices, out2) );
 }
 
+TEST_CASE("test graph getRandomVertex") {
+    Graph g(false, true, 100000);
+    Vertex in1("test_in1", "*");
+    Vertex in2("test_in2", "*");
+    Vertex center("test_center", "+");
+    Vertex out1("test_out1", "*");
+    Vertex out2("test_out2", "*");
+
+    g.insertEdge(in1, center);
+    g.insertEdge(in2, center);
+    g.insertEdge(center, out1);
+    g.insertEdge(center, out2);
+
+    Vertex randomVertex1 = g.getRandomVertex();
+    Vertex randomVertex2 = g.getRandomVertex();
+
+    REQUIRE( randomVertex1 != randomVertex2 );
+}
+
+
 TEST_CASE("test_edge_constructor") {
     SECTION("test_default_constructor") {
         Edge edge;

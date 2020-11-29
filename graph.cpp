@@ -19,6 +19,38 @@ Graph::Graph(bool weighted, bool directed) : weighted(weighted),directed(directe
 {
 }
 
+Graph::Graph(bool weighted, bool directed, unsigned long seed) : weighted(weighted),directed(directed),random(Random(seed))
+{
+}
+
+Vertex Graph::getStartingVertex() const
+{
+    return adjacency_list.begin()->first;
+}
+
+Vertex Graph::getRandomVertex()
+{
+    static int times;
+    int randomInteger;
+    for(int i = 0; i < times; i++) {
+        randomInteger = random.nextInt();
+    }
+    times++;
+    int size = adjacency_list.size();
+    int index = randomInteger % size;
+
+    int i = 0;
+    auto it = adjacency_list.begin();
+    for(; it != adjacency_list.end(); it++) {
+        if(i == index) {
+            break;
+        }
+        i++;
+    }
+
+    return it->first;
+}
+
 vector<Vertex> Graph::getAdjacentVertices(Vertex source) const
 {
     auto lookup = adjacency_list.find(source);
@@ -263,6 +295,12 @@ Edge Graph::setEdgeOperand(Vertex source, Vertex destination, double operand)
         adjacency_list[destination][source] = new_edge_reverse;
     }
     return new_edge;
+}
+
+void compute(Vertex startingVertex)
+{
+    stack<Vertex> s;
+    
 }
 
 bool Graph::assertVertexExists(Vertex v, string functionName) const

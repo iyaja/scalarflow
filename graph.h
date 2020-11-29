@@ -14,6 +14,7 @@
 #include <set>
 #include <sstream>
 #include <vector>
+#include <stack>
 
 #include "edge.h"
 #include "random.h"
@@ -29,6 +30,7 @@ using std::vector;
 using std::pair;
 using std::make_pair;
 using std::unordered_map;
+using std::stack;
 
 
 class Graph {
@@ -54,6 +56,15 @@ public:
     Graph(bool weighted, bool directed);
 
     /**
+     * Constructor to create an empty graph.
+     * @param weighted - specifies whether the graph is a weighted graph or
+     *  not
+     * @param directed - specifies whether the graph is directed
+     * @param seed - a random seed to create the graph with
+     */
+    Graph(bool weighted, bool directed, unsigned long seed);
+
+    /**
      * Constructor to create a random, connected graph.
      * @param weighted - specifies whether the graph is a weighted graph or
      *  not
@@ -61,6 +72,20 @@ public:
      * @param seed - a random seed to create the graph with
      */
     Graph(bool weighted, int numVertices, unsigned long seed);
+
+    /**
+     * Returns one vertex in the graph. This function can be used
+     *  to find a random vertex with which to start a traversal.
+     * @return a vertex from the graph
+     */
+    Vertex getStartingVertex() const;
+
+    /**
+     * Returns one random vertex in the graph. This function can be used
+     *  to find a random vertex 
+     * @return a random vertex from the graph
+     */
+    Vertex getRandomVertex();
 
     /**
      * Gets all adjacent vertices to the parameter vertex.
@@ -208,7 +233,11 @@ public:
      */
     Edge setEdgeWeight(Vertex source, Vertex destination, int weight);
 
-
+    /**
+    * compute the result of computation graph 
+    * @param startingVertex - one vertex which computation starts from
+    */
+    void compute(Vertex startingVertex);
 
     const static Vertex InvalidVertex;
     const static Edge InvalidEdge;
