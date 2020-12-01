@@ -1,2 +1,2 @@
-# myc3-aua2-adamz4-lucianat
+# aua2-adamz4-cang4-shellyn2
 Final Project
