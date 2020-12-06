@@ -1,2 +1,1 @@
-# aua2-adamz4-cang4-shellyn2
-Final Project
+<h1 align="center"> ScalarFlow: Simple But Flexible Computational Graphs</h1>
