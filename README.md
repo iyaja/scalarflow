@@ -1,1 +1,2 @@
-<h1 align="center"> ScalarFlow: Simple But Flexible Computational Graphs</h1>
+<h1 align="center"> ScalarFlow: TensorFlow But Dumber</h1>
+
