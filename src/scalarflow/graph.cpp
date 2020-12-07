@@ -1,4 +1,5 @@
 #include "graph.h"
+#include "edge.h"
 
 // const Vertex Graph::InvalidVertex = "_CS225INVALIDVERTEX";
 const Vertex Graph::InvalidVertex = pair<string,string>("_CS225INVALIDVERTEX", "");

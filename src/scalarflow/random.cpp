@@ -2,6 +2,7 @@
  * @file random.cpp
  * Random library implementation.
  */
+#include "random.h"
 
 /**
  * Constructor.
