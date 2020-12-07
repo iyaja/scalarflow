@@ -20,7 +20,7 @@ add_library(scalarflow src/scalarflow/graph.cpp)
 target_include_directories(scalarflow INTERFACE src)
 
 # Static Binaries
-add_executable(main main.cpp)
+add_executable(main src/main.cpp)
 target_link_libraries(main scalarflow)
 
 # Tests
