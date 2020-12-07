@@ -21,10 +21,20 @@ The final command (`cmake --build .`), if sucessful, will build the `libscalarfl
 
 ## Tests
 
-There are multiple options to run the test suite. The simplest is via the Ctest framework, which will use your ative build system to build an run the tests via Catch2. You can run these tests from the `build/` sub-directory using the command
+There are multiple options to run the test suite. The simplest is via the CTest framework, which will use your ative build system to build an run the tests via Catch2. You can run these tests from the `build/` sub-directory using CTest:
 
 ```
 ctest
 ```
 
-using the default EWS Alternatively, 
+Alternatively, if you're using the Makefile on the `ews` branch, you can build and run the tests directly from `make`:
+
+```
+make test
+```
+
+If you'd like to run the catch tests directly without going thorugh CTest, you can instead run the `catch` binary directly from the `build/` directory with the usual Catch2 flags:
+
+```
+./catch
+```
