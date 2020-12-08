@@ -1,5 +1,5 @@
 # Executable names:
-EXE = sfcli
+EXE = main
 TEST = test
 
 # Add all object files needed for compiling:
