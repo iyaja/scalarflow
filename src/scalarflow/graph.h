@@ -15,6 +15,7 @@
 #include <sstream>
 #include <vector>
 #include <stack>
+#include <queue>
 
 #include "edge.h"
 #include "random.h"
@@ -31,6 +32,7 @@ using std::pair;
 using std::make_pair;
 using std::unordered_map;
 using std::stack;
+using std::queue;
 
 
 class Graph {
@@ -72,6 +74,12 @@ public:
      * @param seed - a random seed to create the graph with
      */
     Graph(bool weighted, int numVertices, unsigned long seed);
+
+    /**
+     * Gets all vertices in the graph.
+     * @return a vector of all vertices in the graph
+     */
+    vector<Vertex> getVertices() const;
 
     // /**
     // * set vertex operator when the vertex is the vertex without out edges (end vertex)
@@ -238,6 +246,16 @@ public:
      */
     Edge setEdgeWeight(Vertex source, Vertex destination, int weight);
 
+     /**
+     * Sets the edge label of the edge between vertices u and v.
+     * @param source - one vertex the edge is connected to
+     * @param destination - the other vertex the edge is connected to
+     * @return - if edge exists, set the label to the corresponding edge(if not directed, set the reverse one too), return edge with new label
+     *         - if edge doesn't exist, return InvalidEdge
+     */
+    Edge setEdgeLabel(Vertex source, Vertex destination, string label);
+
+
     /**
     * compute the result of computation graph 
     * @param startingVertex - one vertex which computation starts from
@@ -250,6 +268,15 @@ public:
     * @param vertex - one vertex where computation happens
     */
     double computeOutEdges(Vertex vertex);
+
+    /**
+    * Breadth first search
+    * @param visitedVertices - the vector stores the order of vertices which are visited
+    * @param discoveredEdges - the vector stores the order of edges which are visited
+    * @param crossEdges - the vector stores the order of edges which are cross edges
+    */
+    void dfs(vector<Vertex> &visitedVertices, vector<Edge> &discoveredEdges, vector<Edge> &crossEdges);
+
 
     const static Vertex InvalidVertex;
     const static Edge InvalidEdge;
@@ -293,5 +320,14 @@ private:
 
     void computeInternal(stack<Vertex> &s);
 
+     /**
+    * Breadth first search
+    * @param v - the vertex which is the starting vertex
+    * @param visitedVertices - the vector stores the order of vertices which are visited
+    * @param discoveredEdges - the vector stores the order of edges which are visited
+    * @param crossEdges - the vector stores the order of edges which are cross edges
+    * @param unexploredVertices - the set which stores unexploredVertices
+    */
+    void dfsInternal(Vertex vertex, vector<Vertex> &visitedVertices, vector<Edge> &discoveredEdges, vector<Edge> &crossEdges, set<Vertex> &unexploredVertices, set<Edge> &unexploredEdges);
   
 };
