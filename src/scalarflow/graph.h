@@ -328,6 +328,6 @@ private:
     * @param crossEdges - the vector stores the order of edges which are cross edges
     * @param unexploredVertices - the set which stores unexploredVertices
     */
-    void dfsInternal(Vertex vertex, vector<Vertex> &visitedVertices, vector<Edge> &discoveredEdges, vector<Edge> &crossEdges, set<Vertex> &unexploredVertices, set<Edge> &unexploredEdges);
+    void dfsInternal(Vertex vertex, vector<Vertex> &visitedVertices, vector<Edge> &discoveredEdges, vector<Edge> &crossEdges,set<Vertex> &unexploredVertices);
   
 };

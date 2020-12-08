@@ -404,27 +404,28 @@ void Graph::dfs(vector<Vertex> &visitedVertices, vector<Edge> &discoveredEdges, 
     vector<Vertex> vertices = this->getVertices();
     vector<Edge> edges = this->getEdges();
     set<Vertex> unexploredVertices; 
-    set<Edge> unexploredEdges;
+    set<Vertex> exploredVertices;
     for(auto v: vertices) {
         unexploredVertices.insert(v);
     }
-    for(auto edge: edges) {
-        unexploredEdges.insert(edge);
+    for(auto e: edges) {
+        setEdgeLabel(e.source, e.dest, "UNEXPLORED");
     }
     for(auto v: vertices) {
-        dfsInternal(v, visitedVertices, discoveredEdges, crossEdges, unexploredVertices, unexploredEdges);
+        if(unexploredVertices.find(v) != unexploredVertices.end()) {
+            dfsInternal(v, visitedVertices, discoveredEdges, crossEdges, unexploredVertices);
+        }
     }
 }
 
-void Graph::dfsInternal(Vertex vertex, vector<Vertex> &visitedVertices, vector<Edge> &discoveredEdges, vector<Edge> &crossEdges, set<Vertex> &unexploredVertices, set<Edge> &unexploredEdges) {
-    set<Vertex> exploredVertices;
-    set<Edge> exploredEdges;
-    queue<Vertex> q;
-    q.push(vertex);
-    exploredVertices.insert(vertex);
+void Graph::dfsInternal(Vertex vertex, vector<Vertex> &visitedVertices, vector<Edge> &discoveredEdges, vector<Edge> &crossEdges, set<Vertex> &unexploredVertices) {
+    stack<Vertex> s;
+    s.push(vertex);
+    visitedVertices.push_back(vertex);
     unexploredVertices.erase(vertex);
-    while(!q.empty()) {
-        Vertex frontVertex = q.front();
+    while(!s.empty()) {
+        Vertex frontVertex = s.top();
+        s.pop();
         vector<Vertex> adjacentVertices = this->getAdjacentVertices(frontVertex);
         for(auto adjacentVertex: adjacentVertices) {
             // get edge from graph and add to set exploredEdges
@@ -432,23 +433,23 @@ void Graph::dfsInternal(Vertex vertex, vector<Vertex> &visitedVertices, vector<E
             
             if(unexploredVertices.find(adjacentVertex) != unexploredVertices.end()) {
                 // label edge as explored
-                exploredEdges.insert(exploredEdge);
-                unexploredEdges.erase(exploredEdge);
+                // exploredEdges.insert(exploredEdge);
+                // unexploredEdges.erase(exploredEdge);
+                setEdgeLabel(exploredEdge.source, exploredEdge.dest, "DISCOVERY");
 
                 // maintain the order of edges which are visited
                 discoveredEdges.push_back(exploredEdge);
 
                 // label vertex as explored
-                exploredVertices.insert(adjacentVertex);
                 unexploredVertices.erase(adjacentVertex);
 
                 // maintain the order of vertices which are visited
                 visitedVertices.push_back(adjacentVertex);
 
-                q.push(adjacentVertex);
+                s.push(adjacentVertex);
             }
-            else if(unexploredEdges.find(exploredEdge) != unexploredEdges.end()) {
-                unexploredEdges.erase(exploredEdge);
+            else if(exploredEdge.getLabel() == "UNEXPLORED") {
+                setEdgeLabel(exploredEdge.source, exploredEdge.dest, "BACK");
                 crossEdges.push_back(exploredEdge);
             }
         }
