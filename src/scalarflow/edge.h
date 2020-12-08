@@ -63,6 +63,18 @@ class Edge {
     * Parameter constructor for graphs.
     * @param u - one vertex the edge is connected to
     * @param v - the other vertex it is connected to
+    * @param wei - the weight of the edge
+    * @param lbl - the edge label
+    */
+    Edge(Vertex u, Vertex v, int wei, string lbl)
+        : source(u), dest(v), label(lbl), weight(wei), existed(true), assigned(false)
+    { /* nothing */
+    }
+
+    /**
+    * Parameter constructor for graphs.
+    * @param u - one vertex the edge is connected to
+    * @param v - the other vertex it is connected to
     * @param lbl - the edge label
     * @param oper - the operand stored in edge
     * @param wei - the weight of the edge
