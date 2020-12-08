@@ -24,6 +24,18 @@ Graph::Graph(bool weighted, bool directed, unsigned long seed) : weighted(weight
 {
 }
 
+vector<Vertex> Graph::getVertices() const
+{
+    vector<Vertex> ret;
+
+    for(auto it = adjacency_list.begin(); it != adjacency_list.end(); it++)
+    {
+        ret.push_back(it->first);
+    }
+
+    return ret;
+}
+
 Vertex Graph::getStartingVertex() const
 {
     return adjacency_list.begin()->first;
@@ -299,6 +311,22 @@ Edge Graph::setEdgeOperand(Vertex source, Vertex destination, double operand)
     return new_edge;
 }
 
+Edge Graph::setEdgeLabel(Vertex source, Vertex destination, string label)
+{
+    if (assertEdgeExists(source, destination, __func__) == false)
+        return InvalidEdge;
+    Edge e = adjacency_list[source][destination];
+    Edge new_edge(source, destination, e.getWeight(), label);
+    adjacency_list[source][destination] = new_edge;
+
+    if(!directed)
+    {
+        Edge new_edge_reverse(destination,source, e.getWeight(), label);
+        adjacency_list[destination][source] = new_edge_reverse;
+    }
+    return new_edge;
+}
+
 void Graph::compute(Vertex startingVertex)
 {
     stack<Vertex> s;
@@ -370,6 +398,61 @@ double Graph::computeOutEdges(Vertex vertex) {
         return adjacent_in_edges[0].getOperand() * adjacent_in_edges[1].getOperand();
     }
     return double();
+}
+
+void Graph::dfs(vector<Vertex> &visitedVertices, vector<Edge> &discoveredEdges, vector<Edge> &crossEdges) {
+    vector<Vertex> vertices = this->getVertices();
+    vector<Edge> edges = this->getEdges();
+    set<Vertex> unexploredVertices; 
+    set<Edge> unexploredEdges;
+    for(auto v: vertices) {
+        unexploredVertices.insert(v);
+    }
+    for(auto edge: edges) {
+        unexploredEdges.insert(edge);
+    }
+    for(auto v: vertices) {
+        dfsInternal(v, visitedVertices, discoveredEdges, crossEdges, unexploredVertices, unexploredEdges);
+    }
+}
+
+void Graph::dfsInternal(Vertex vertex, vector<Vertex> &visitedVertices, vector<Edge> &discoveredEdges, vector<Edge> &crossEdges, set<Vertex> &unexploredVertices, set<Edge> &unexploredEdges) {
+    set<Vertex> exploredVertices;
+    set<Edge> exploredEdges;
+    queue<Vertex> q;
+    q.push(vertex);
+    exploredVertices.insert(vertex);
+    unexploredVertices.erase(vertex);
+    while(!q.empty()) {
+        Vertex frontVertex = q.front();
+        vector<Vertex> adjacentVertices = this->getAdjacentVertices(frontVertex);
+        for(auto adjacentVertex: adjacentVertices) {
+            // get edge from graph and add to set exploredEdges
+            Edge exploredEdge = this->getEdge(frontVertex, adjacentVertex);
+            
+            if(unexploredVertices.find(adjacentVertex) != unexploredVertices.end()) {
+                // label edge as explored
+                exploredEdges.insert(exploredEdge);
+                unexploredEdges.erase(exploredEdge);
+
+                // maintain the order of edges which are visited
+                discoveredEdges.push_back(exploredEdge);
+
+                // label vertex as explored
+                exploredVertices.insert(adjacentVertex);
+                unexploredVertices.erase(adjacentVertex);
+
+                // maintain the order of vertices which are visited
+                visitedVertices.push_back(adjacentVertex);
+
+                q.push(adjacentVertex);
+            }
+            else if(unexploredEdges.find(exploredEdge) != unexploredEdges.end()) {
+                unexploredEdges.erase(exploredEdge);
+                crossEdges.push_back(exploredEdge);
+            }
+        }
+    }
 }
 
 bool Graph::assertVertexExists(Vertex v, string functionName) const
