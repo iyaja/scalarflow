@@ -23,6 +23,7 @@ target_include_directories(scalarflow INTERFACE src)
 add_executable(main src/main.cpp)
 target_link_libraries(main scalarflow)
 
+
 # Tests
 add_executable(catch tests/test.cpp tests/test_graph.cpp tests/test_edge.cpp)
 target_link_libraries(catch Catch2::Catch2)
