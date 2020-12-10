@@ -19,5 +19,6 @@ int main(int argc, char** argv) {
 
     cout << "Registered " << g->getVertices().size() <<  " nodes." << endl;
 
+    g->print();
 
 }
