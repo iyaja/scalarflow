@@ -1,5 +1,5 @@
 #include "graph.h"
-#include "edge.h"
+#include "edge.hpp"
 #include "pair_hash.h"
 
 
