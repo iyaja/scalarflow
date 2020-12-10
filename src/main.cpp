@@ -1,8 +1,13 @@
 #include "scalarflow/graph.h"
+#include "parser.h"
 
 #include <iostream>
 
-int main(int, char**) {
+int main(int argc, char** argv) {
+
+    yyFlexLexer scanner(std::cin, std::cout);
+    scanner.yylex();
+
     Graph* g = new Graph();
     Vertex v1 = {"1", "+"};
     Vertex v2 = {"2", "+"};

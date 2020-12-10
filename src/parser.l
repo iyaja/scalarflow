@@ -10,15 +10,16 @@ std::vector<string> lines;
 
 %}
 
+%option c++
+
+
 %%
 
-[a-zA-Z]+\n  { lines.push_back(yytext) }
+[a-zA-Z]+\n  { lines.push_back(yytext); }
 .          { ; }
 
 %%
 
-main(int argc, char **argv)
-{
-  yylex();
-  printf("%8d%8d%8d\n", lines);
+int yyFlexLexer::yywrap() {
+  return 1;
 }

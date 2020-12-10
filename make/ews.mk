@@ -11,6 +11,7 @@
 # Compiler/linker comfig and object/depfile directory:
 CXX = clang++
 LD = clang++
+LEX = flex
 OBJS_DIR = .objs
 
 # Add standard CS 225 object files
@@ -37,8 +38,11 @@ all: $(EXE)
 # Rule for linking the final executable:
 # - $(EXE) depends on all object files in $(OBJS)
 # - `patsubst` function adds the directory name $(OBJS_DIR) before every object file
-$(EXE): output_msg $(patsubst %.o, $(OBJS_DIR)/%.o, $(OBJS))
+$(EXE): output_msg $(PARSER) $(patsubst %.o, $(OBJS_DIR)/%.o, $(OBJS))
 	$(LD) $(filter-out $<, $^) $(LDFLAGS) -o $@
+
+$(PARSER): $(PARSER_SRC)
+	$(LEX) -o $(PARSER) --header-file=$(PARSER:cpp=h) $(PARSER_SRC)
 
 # Ensure .objs/ exists:
 $(OBJS_DIR):
@@ -56,7 +60,6 @@ $(OBJS_DIR)/%.o: %.cpp | $(OBJS_DIR)
 
 # Rules for compiling test suite.
 # - Grab every .cpp file in tests/, compile them to .o files
-# - Build the test program w/ catchmain.cpp from cs225
 OBJS_TEST += $(filter-out $(EXE_OBJ), $(OBJS))
 CPP_TEST = $(wildcard tests/*.cpp)
 OBJS_TEST += $(CPP_TEST:.cpp=.o)
