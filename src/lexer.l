@@ -5,24 +5,52 @@
 %{
 
 #include "scalarflow/graph.h"
+#include "file.h"
+#include <string>
+#include <map>
 
-std::vector<string> lines;
-Graph* g = new Graph();
+using namespace std;
+
+Graph * g = new Graph(true, true);
+
+std::map<std::string, Vertex> nodes;
+
+char* id;
+char* in;
+char* fname;
+string out;
+
+void addNode(string id, string fname) {
+  out = id;
+  Vertex v = { id, fname };
+  nodes.insert({id, v});
+  g->insertVertex(v);
+}
+
+void addEdge(string in, string id) {
+  if (nodes.at(in).second == "input")
+    return;
+  g->insertEdge(nodes.at(in), nodes.at(id));
+}
+
 
 %}
 
-%option noyywrap
+%option c++
 
 %%
 
-@[a-zA-Z_]+   { g->insertNode }
-$[a-zA-Z_]+   { std::cout << yytext << std::endl; }
-\n            {  }
-.             {  }
+@[a-zA-Z]+          { fname = &yytext[1]; }
+%[a-zA-Z]+          { id = &yytext[1]; addNode(id, fname); }
+$[a-zA-Z]+          { in = &yytext[1]; addEdge(in, out); }
+.                   {  }
 
 %%
 
-int main() {
-  yylex();
-  return 0;
+int yyFlexLexer::yywrap() {
+  return 1;
+}
+
+Graph * File::getGraph() {
+  return g;
 }
