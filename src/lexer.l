@@ -5,6 +5,7 @@
 %{
 
 #include "scalarflow/graph.h"
+<<<<<<< HEAD
 #include "file.h"
 #include <string>
 #include <map>
@@ -53,4 +54,26 @@ int yyFlexLexer::yywrap() {
 
 Graph * File::getGraph() {
   return g;
+=======
+
+std::vector<string> lines;
+Graph* g = new Graph();
+
+%}
+
+%option noyywrap
+
+%%
+
+@[a-zA-Z_]+   { g->insertNode }
+$[a-zA-Z_]+   { std::cout << yytext << std::endl; }
+\n            {  }
+.             {  }
+
+%%
+
+int main() {
+  yylex();
+  return 0;
+>>>>>>> master
 }
