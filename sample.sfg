@@ -1,0 +1,4 @@
+@input %a
+@input %b
+@add %c $a $b
+@output %d $c
