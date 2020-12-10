@@ -1,4 +1,23 @@
-
+/**
+ * @file graph.h
+ * Graph Library Declarations
+ *
+ * Written for CS 225 Spring 2011
+ * @author Sean Massung
+ *
+ * Updated Spring 2012 by Sean Massung
+ *  - Added doxygen comments
+ *  - Created better error handling
+ *  - More encapsulated and object-oriented
+ * 
+ *  Updated Spring 2018 by Jordi
+ *  - Added doxygen comments
+ *  - Created better error handling
+ *  - More encapsulated and object-oriented
+ *
+ * Update Spring 18 by Simeng
+ * - Finishing adding all required features
+ */
 #pragma once
 
 #include <list>
@@ -14,8 +33,6 @@
 #include <set>
 #include <sstream>
 #include <vector>
-#include <stack>
-#include <queue>
 
 #include "edge.h"
 #include "random.h"
@@ -31,40 +48,29 @@ using std::vector;
 using std::pair;
 using std::make_pair;
 using std::unordered_map;
-using std::stack;
-using std::queue;
 
 
-class Graph {
+/**
+ * Represents a graph; used by the GraphTools class.
+ *
+ */
+class Graph
+{
 public:
-    /**
-     * Constructor to create an empty graph.
-     */
-     Graph();
-
     /**
      * Constructor to create an empty graph.
      * @param weighted - specifies whether the graph is a weighted graph or
      *  not
      */
-     Graph(bool weighted);
+    Graph(bool weighted);
 
-     /**
+    /**
      * Constructor to create an empty graph.
      * @param weighted - specifies whether the graph is a weighted graph or
      *  not
      * @param directed - specifies whether the graph is directed
      */
     Graph(bool weighted, bool directed);
-
-    /**
-     * Constructor to create an empty graph.
-     * @param weighted - specifies whether the graph is a weighted graph or
-     *  not
-     * @param directed - specifies whether the graph is directed
-     * @param seed - a random seed to create the graph with
-     */
-    Graph(bool weighted, bool directed, unsigned long seed);
 
     /**
      * Constructor to create a random, connected graph.
@@ -76,17 +82,11 @@ public:
     Graph(bool weighted, int numVertices, unsigned long seed);
 
     /**
-     * Gets all vertices in the graph.
-     * @return a vector of all vertices in the graph
+     * Gets all adjacent vertices to the parameter vertex.
+     * @param source - vertex to get neighbors from
+     * @return a vector of vertices
      */
-    vector<Vertex> getVertices() const;
-
-    // /**
-    // * set vertex operator when the vertex is the vertex without out edges (end vertex)
-    // * @param vertex - the vertex without out edges
-    // * @param operand - the operator is going to be assigned to vertex
-    // */
-    // void setVertexOperator(Vertex vertex, string operand); 
+    vector<Vertex> getAdjacent(Vertex source) const;
 
     /**
      * Returns one vertex in the graph. This function can be used
@@ -96,46 +96,11 @@ public:
     Vertex getStartingVertex() const;
 
     /**
-     * Returns one random vertex in the graph. This function can be used
-     *  to find a random vertex 
-     * @return a random vertex from the graph
+     * Gets all vertices in the graph.
+     * @return a vector of all vertices in the graph
      */
-    Vertex getRandomVertex();
-
-    /**
-     * Gets all adjacent vertices to the parameter vertex.
-     * @param source - vertex to get neighbors from
-     * @return a vector of vertices
-     */
-    vector<Vertex> getAdjacentVertices(Vertex source) const; 
-
-    /**
-     * Gets all adjacent edges which points to the parameter vertex.
-     * @param source - vertex to get edges from
-     * @return a vector of edges
-     */
-    vector<Edge> getAdjacentInEdges(Vertex source) const;
-
-    /**
-    * Gets all adjacent edges which comes from the parameter vertex.
-    * @param source - vertex to get edges from
-    * @return a vector of edges
-    */
-    vector<Edge> getAdjacentOutEdges(Vertex source) const;
-
-    /**
-    * Gets all adjacent vertices which the direction of edge between source and vertex is from source to vertex
-    * @param source - vertex to get vertices from
-    * @return a vector of vertices
-    */
-    vector<Vertex> getAdjacentOutVertices(Vertex source) const;
-
-    /**
-    * Gets all adjacent vertices which the direction of edge between source and vertex is from vertex to source
-    * @param source - vertex to get vertices from
-    * @return a vector of vertices
-    */
-    vector<Vertex> getAdjacentInVertices(Vertex source) const;
+    vector<Vertex> getVertices() const;
+    
 
     /**
      * Gets an edge between two vertices.
@@ -160,27 +125,20 @@ public:
     bool vertexExists (Vertex v) const;
 
     /**
-     * Inserts a new vertex into the graph and initializes its label as "".
-     * @param v - the name for the vertex
+     * Checks if edge exists between two vertices exists.
+     * @return - if Edge exists, true
+     *         - if Edge doesn't exist, return false
      */
-    void insertVertex(Vertex v);
+    bool edgeExists(Vertex source, Vertex destination) const;
 
-    /**
-     * Removes a given vertex from the graph.
-     * @param v - the vertex to remove
-     * @return - if v exists, return v
-     *         - if not, return InvalidVertex;
-     */
-    Vertex removeVertex(Vertex v);
-
-     /**
-     * Gets the edge operand of the edge between vertices u and v.
+        /**
+     * Sets the edge label of the edge between vertices u and v.
      * @param source - one vertex the edge is connected to
      * @param destination - the other vertex the edge is connected to
-     * @return - if edge exists, return edge operand
-     *         - if edge doesn't exist, return InvalidOperand
+     * @return - if edge exists, set the label to the corresponding edge(if not directed, set the reverse one too), return edge with new label
+     *         - if edge doesn't exist, return InvalidEdge
      */
-    double getEdgeOperand(Vertex source, Vertex destination) const;
+        Edge setEdgeLabel(Vertex source, Vertex destination, string label);
 
     /**
      * Gets the edge label of the edge between vertices u and v.
@@ -200,14 +158,21 @@ public:
      */
     int getEdgeWeight(Vertex source, Vertex destination) const;
 
-     /**
-     * Checks if edge exists between two vertices exists.
-     * @return - if Edge exists, true
-     *         - if Edge doesn't exist, return false
+    /**
+     * Inserts a new vertex into the graph and initializes its label as "".
+     * @param v - the name for the vertex
      */
-    bool edgeExists(Vertex source, Vertex destination) const;
+    void insertVertex(Vertex v);
 
-     /**
+    /**
+     * Removes a given vertex from the graph.
+     * @param v - the vertex to remove
+     * @return - if v exists, return v
+     *         - if not, return InvalidVertex;
+     */
+    Vertex removeVertex(Vertex v);
+
+    /**
      * Inserts an edge between two vertices.
      * A boolean is returned for use with the random graph generation.
      * Hence, an error is not thrown when it fails to insert an edge.
@@ -227,16 +192,6 @@ public:
     Edge removeEdge(Vertex source, Vertex destination);
 
     /**
-     * Sets the operand of the edge between two vertices.
-     * @param source - one vertex the edge is connected to
-     * @param destination - the other vertex the edge is connected to
-     * @param weight - the operand to set to the edge
-     * @return - if edge exists, set edge weight and return  edge with new operand
-     *         - if not, return InvalidEdge
-     */
-    Edge setEdgeOperand(Vertex source, Vertex destination, double operand);
-
-    /**
      * Sets the weight of the edge between two vertices.
      * @param source - one vertex the edge is connected to
      * @param destination - the other vertex the edge is connected to
@@ -246,52 +201,48 @@ public:
      */
     Edge setEdgeWeight(Vertex source, Vertex destination, int weight);
 
-     /**
-     * Sets the edge label of the edge between vertices u and v.
-     * @param source - one vertex the edge is connected to
-     * @param destination - the other vertex the edge is connected to
-     * @return - if edge exists, set the label to the corresponding edge(if not directed, set the reverse one too), return edge with new label
-     *         - if edge doesn't exist, return InvalidEdge
+    /**
+     * Creates a name for snapshots of the graph.
+     * @param title - the name to save the snapshots as
      */
-    Edge setEdgeLabel(Vertex source, Vertex destination, string label);
-
-
-    /**
-    * compute the result of computation graph 
-    * @param startingVertex - one vertex which computation starts from
-    */
-    void compute(Vertex startingVertex);
-
+    void initSnapshot(string title);
 
     /**
-    * compute the out edges result according to in edges and operator of vertex
-    * @param vertex - one vertex where computation happens
-    */
-    double computeOutEdges(Vertex vertex);
+     * Saves a snapshot of the graph to file.
+     * initSnapshot() must be run first.
+     */
+    void snapshot();
 
     /**
-    * Breadth first search
-    * @param visitedVertices - the vector stores the order of vertices which are visited
-    * @param discoveredEdges - the vector stores the order of edges which are visited
-    * @param crossEdges - the vector stores the order of edges which are cross edges
-    */
-    void dfs(vector<Vertex> &visitedVertices, vector<Edge> &discoveredEdges, vector<Edge> &crossEdges);
+     * Prints the graph to stdout.
+     */
+    void print() const;
+
+    /**
+     * Saves the graph as a PNG image.
+     * @param title - the filename of the PNG image
+     */
+    void savePNG(string title) const;
+
+    bool isDirected() const;
+
+    void clear();
 
 
     const static Vertex InvalidVertex;
     const static Edge InvalidEdge;
     const static int InvalidWeight;
     const static string InvalidLabel;
-    const static double InvalidOperand;
 
 private:
-
     mutable unordered_map<Vertex, unordered_map<Vertex, Edge, pair_hash>, pair_hash> adjacency_list;
-
 
     bool weighted;
     bool directed;
     Random random;
+    int picNum;
+    string picName;
+
 
     /**
      * Returns whether a given vertex exists in the graph.
@@ -317,17 +268,4 @@ private:
      * @param message - the error message that is printed
      */
     void error(string message) const;
-
-    void computeInternal(stack<Vertex> &s);
-
-     /**
-    * Breadth first search
-    * @param v - the vertex which is the starting vertex
-    * @param visitedVertices - the vector stores the order of vertices which are visited
-    * @param discoveredEdges - the vector stores the order of edges which are visited
-    * @param crossEdges - the vector stores the order of edges which are cross edges
-    * @param unexploredVertices - the set which stores unexploredVertices
-    */
-    void dfsInternal(Vertex vertex, vector<Vertex> &visitedVertices, vector<Edge> &discoveredEdges, vector<Edge> &crossEdges,set<Vertex> &unexploredVertices);
-  
 };
