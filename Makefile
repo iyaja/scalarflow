@@ -3,8 +3,8 @@ EXE = main
 TEST = test
 
 # Parser file
-PARSER = src/parser.cpp
-PARSER_SRC = src/parser.l
+PARSER = src/lexer.cpp
+PARSER_SRC = src/lexer.l
 
 # Add all object files needed for compiling:
 EXE_OBJ = src/parser.o
@@ -14,7 +14,7 @@ OBJS = src/scalarflow/graph.o src/scalarflow/edge.o src/main.o
 CXXFLAGS += -Isrc
 
 # Extra files to clean
-CLEAN_RM += src/parser.cpp src/parser.h
+CLEAN_RM += src/lexer.cpp src/lexer.h
 
 # Use the cs225 makefile template:
 include make/ews.mk

@@ -1,19 +1,23 @@
+
 #include "scalarflow/graph.h"
-#include "parser.h"
+#include "file.h"
+#include "lexer.h"
 
 #include <iostream>
+
+using namespace std;
 
 int main(int argc, char** argv) {
 
     yyFlexLexer scanner(std::cin, std::cout);
-    scanner.yylex();
 
-    Graph* g = new Graph();
-    Vertex v1 = {"1", "+"};
-    Vertex v2 = {"2", "+"};
-    g->insertEdge(v1, v2);
-    g->insertVertex(v1);
-    g->insertVertex(v2);
-    std::cout << g->edgeExists(v1, v2) << std::endl;
-    std::cout << "Hello, world!\n";
+    cout << "Parsing..." << endl;
+
+    scanner.yylex();
+    File file;
+    Graph * g = file.getGraph();
+
+    cout << "Registered " << g->getVertices().size() <<  " nodes." << endl;
+
+
 }
