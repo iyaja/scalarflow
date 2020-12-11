@@ -9,6 +9,8 @@
 
 using namespace std;
 
+typedef vector<Edge> Path;
+
 class ScalarFlowGraph : public Graph
 {
 public:
@@ -22,7 +24,9 @@ public:
     map<Vertex, float> forwardAll();
     map<Vertex, float> eval(Vertex);
     map<Vertex, float> evalAll();
-    vector<Edge> DFS();
+    vector<Edge> traverse(Vertex, string);
+    // vector<Edge> DFS(Vertex, Vertex);
+    // vector<Edge> BFS(Vertex, Vertex);
 
 private:
     Graph backGraph = Graph(false, true);
@@ -30,7 +34,10 @@ private:
     vector<Vertex> inodes;
     vector<Vertex> onodes;
     map<Vertex, float> values;
+    vector<Edge> trav;
 
     void forward_(Vertex);
     float eval_(Vertex);
+    void DFS_(Vertex);
+    void BFS_(Vertex);
 };

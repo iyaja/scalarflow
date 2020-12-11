@@ -123,7 +123,50 @@ float ScalarFlowGraph::eval_(Vertex curr)
     return val;
 }
 
-void DFS()
+vector<Edge> ScalarFlowGraph::traverse(Vertex source, string method)
 {
-    return;
+    this->trav = {};
+
+    if (method == "DFS")
+        DFS_(source);
+    else if (method == "BFS")
+        BFS_(source);
+    else
+    {
+        cerr << "ERROR: invalid traversal maethod specified - " << method << endl;
+        exit(1);
+    }
+
+    return trav;
 }
+
+void ScalarFlowGraph::DFS_(Vertex curr)
+{
+    for (Vertex v: getAdjacent(curr))
+    {
+        trav.push_back(getEdge(curr, v));
+        DFS_(v);
+    }
+
+}
+
+void ScalarFlowGraph::BFS_(Vertex curr)
+{
+    for (Vertex v: getAdjacent(curr))
+        trav.push_back(getEdge(curr, v));
+    
+    for (Vertex v: getAdjacent(curr))
+        BFS_(v);
+
+}
+
+// void ScalarFlowGraph::BFS_(Vertex curr, Vertex targ, vector<Edge> * path)
+// {
+//     for (Vertex v: getAdjacent(curr))
+//     {
+//         if (v == targ)
+//             path->push_back(v);
+//         else
+//             path->push_back(BFS_(v, path));
+//     }
+// }

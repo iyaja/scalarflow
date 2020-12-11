@@ -403,7 +403,7 @@ static const flex_int16_t yy_chk[28] =
 #line 6 "src/lexer.l"
 
 #include "scalarflow/graph.h"
-#include "file.h"
+#include "fileinterface.h"
 #include <string>
 #include <map>
 
@@ -1631,6 +1631,6 @@ int yyFlexLexer::yywrap() {
   return 1;
 }
 
-ScalarFlowGraph * File::getGraph() {
+ScalarFlowGraph * FileInterface::getGraph() {
   return g;
 }
