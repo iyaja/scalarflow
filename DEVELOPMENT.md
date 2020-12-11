@@ -22,7 +22,7 @@
 ## Week 3 (Dec 7 - Dec 12)
 
 ### Parser & Executable
-- Remove grammar specification and implement simle lexer for flexibility
+- Remove grammar specification and implement simple lexer for flexibility
 - Add more output information for binary
 
 ### Graph Implementation
