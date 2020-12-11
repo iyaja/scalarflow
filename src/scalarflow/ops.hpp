@@ -1,6 +1,6 @@
-#include <bits/floatn-common.h>
 #include <iostream>
 #include <map>
+#include <vector>
 #include <string>
 #include <functional>
 
@@ -8,7 +8,7 @@ typedef std::function<float(float,float)> Function;
 typedef std::string ID;
 
 typedef float f32;
-typedef vector<float> vf32;
+typedef std::vector<float> vf32;
 typedef int i32;
 
 #define REGISTER(id, expr) { id, [] (f32 a, f32 b) { return expr; } },
