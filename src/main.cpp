@@ -37,16 +37,9 @@ int main(int argc, char** argv) {
     g->savePNG("simple");
 
     Vertex source = {"a", "const"};
-    // Vertex dest = {"d", "output"};
-
     vector<Edge> path = g->traverse(source, "BFS");
 
     for (Edge e : path)
         cout << e.source.first << "->" << e.dest.first << endl;
-
-    // for (std::pair<const Vertex,float> val : vals)
-    // {
-    //     cout << val.first.first << "\t" << val.second << endl;
-    // }
 
 }

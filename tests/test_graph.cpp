@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <scalarflow/graph.h>
-
+#include <scalarflow/sfg.h>
 
 template <typename T>
 bool ifSourceInList(vector<T> list, T source) {
@@ -58,18 +58,6 @@ TEST_CASE("test graph removeEdge") {
     REQUIRE( !g.edgeExists(source, dest) );
 }
 
-TEST_CASE("test graph setEdgeOperand") {
-    Graph g(false, true);
-    Vertex source("test_source", "+");
-    Vertex dest("test_dest", "*");
-
-    g.insertEdge(source, dest);
-    g.setEdgeOperand(source, dest, 123.123);
-    REQUIRE( g.edgeExists(source, dest) );
-    REQUIRE( g.getEdgeOperand(source, dest) == 123.123 );
-    REQUIRE( g.getEdge(source, dest).getOperand() == 123.123 );
-}
-
 TEST_CASE("test graph getEdges") {
     Graph g(false, true);
     Vertex source1("test_source1", "+");
@@ -116,7 +104,7 @@ TEST_CASE("test graph getAdjacentVertices") {
     g.insertEdge(source1, dest2);
     g.insertEdge(source1, dest3);
 
-    vector<Vertex> adjacent_vertices = g.getAdjacentVertices(source1);
+    vector<Vertex> adjacent_vertices = g.getAdjacent(source1);
     // convert vector to set
     set<Vertex> vertices_set;
     for(Vertex vertex : adjacent_vertices) {
@@ -129,139 +117,3 @@ TEST_CASE("test graph getAdjacentVertices") {
     REQUIRE( vertices_set.find(dest2) != vertices_set.end() );
     REQUIRE( vertices_set.find(dest3) != vertices_set.end() );
 }
-
-TEST_CASE("test graph getAdjacentInEdges") {
-    Graph g(false, true);
-    Vertex in1("test_in1", "*");
-    Vertex in2("test_in2", "*");
-    Vertex center("test_center", "+");
-    Vertex out1("test_out1", "*");
-    Vertex out2("test_out2", "*");
-
-    g.insertEdge(in1, center);
-    g.insertEdge(in2, center);
-    g.insertEdge(center, out1);
-    g.insertEdge(center, out2);
-
-    vector<Edge> adjacent_in_edges = g.getAdjacentInEdges(center);
-    Edge inEdge1 = g.getEdge(in1, center);
-    Edge inEdge2 = g.getEdge(in2, center);
-    Edge outEdge1 = g.getEdge(center, out1);
-    Edge outEdge2 = g.getEdge(center, out2);
-
-    REQUIRE( adjacent_in_edges.size() == 2 );
-    REQUIRE( ifSourceInList<Edge>(adjacent_in_edges, inEdge1) );
-    REQUIRE( ifSourceInList<Edge>(adjacent_in_edges, inEdge2) );
-    REQUIRE( !ifSourceInList<Edge>(adjacent_in_edges, outEdge1) );
-    REQUIRE( !ifSourceInList<Edge>(adjacent_in_edges, outEdge2) );
-}
-
-TEST_CASE("test graph getAdjacentOutEdges") {
-    Graph g(false, true);
-    Vertex in1("test_in1", "*");
-    Vertex in2("test_in2", "*");
-    Vertex center("test_center", "+");
-    Vertex out1("test_out1", "*");
-    Vertex out2("test_out2", "*");
-
-    g.insertEdge(in1, center);
-    g.insertEdge(in2, center);
-    g.insertEdge(center, out1);
-    g.insertEdge(center, out2);
-
-    vector<Edge> adjacent_out_edges = g.getAdjacentOutEdges(center);
-    Edge inEdge1 = g.getEdge(in1, center);
-    Edge inEdge2 = g.getEdge(in2, center);
-    Edge outEdge1 = g.getEdge(center, out1);
-    Edge outEdge2 = g.getEdge(center, out2);
-
-    REQUIRE( adjacent_out_edges.size() == 2 );
-    REQUIRE( !ifSourceInList<Edge>(adjacent_out_edges, inEdge1) );
-    REQUIRE( !ifSourceInList<Edge>(adjacent_out_edges, inEdge2) );
-    REQUIRE( ifSourceInList<Edge>(adjacent_out_edges, outEdge1) );
-    REQUIRE( ifSourceInList<Edge>(adjacent_out_edges, outEdge2) );
-}
-
-TEST_CASE("test graph getAdjacentOutVertices") {
-    Graph g(false, true);
-    Vertex in1("test_in1", "*");
-    Vertex in2("test_in2", "*");
-    Vertex center("test_center", "+");
-    Vertex out1("test_out1", "*");
-    Vertex out2("test_out2", "*");
-
-    g.insertEdge(in1, center);
-    g.insertEdge(in2, center);
-    g.insertEdge(center, out1);
-    g.insertEdge(center, out2);
-
-    vector<Vertex> adjacent_out_vertices = g.getAdjacentOutVertices(center);
-
-    REQUIRE( adjacent_out_vertices.size() == 2 );
-    REQUIRE( !ifSourceInList<Vertex>(adjacent_out_vertices, in1) );
-    REQUIRE( !ifSourceInList<Vertex>(adjacent_out_vertices, in2) );
-    REQUIRE( ifSourceInList<Vertex>(adjacent_out_vertices, out1) );
-    REQUIRE( ifSourceInList<Vertex>(adjacent_out_vertices, out2) );
-}
-
-TEST_CASE("test graph dfs") {
-    Graph g(false, true, 100000);
-    Vertex vertex1("1", "start");
-    Vertex vertex2("2", "+");
-    Vertex vertex3("3", "start");
-    Vertex vertex4("4", "+");
-    Vertex vertex5("5", "*");
-    Vertex vertex6("6", "start");
-    Vertex vertex7("7", "+");
-    Vertex vertex8("8", "end");
-
-    g.insertEdge(vertex1, vertex5);
-    g.insertEdge(vertex1, vertex2);
-    g.insertEdge(vertex3, vertex2);
-    g.insertEdge(vertex2, vertex4);
-    g.insertEdge(vertex5, vertex4);
-    g.insertEdge(vertex6, vertex5);
-    g.insertEdge(vertex5, vertex7);
-    g.insertEdge(vertex4, vertex7);
-    g.insertEdge(vertex7, vertex8);
-
-    vector<Vertex> visitedVertices;
-    vector<Edge> discoveryEdges;
-    vector<Edge> backEdges;
-
-    g.dfs(visitedVertices, discoveryEdges,backEdges);
-
-    set<Vertex> resultVertices = convertVectorToSet(visitedVertices);
-    set<Edge> resultEdges = convertVectorToSet(discoveryEdges);
-    set<Edge> resultBackEdges = convertVectorToSet(backEdges);
-
-    REQUIRE( resultVertices.find(vertex1) != resultVertices.end());
-    REQUIRE( resultVertices.find(vertex2) != resultVertices.end());
-    REQUIRE( resultVertices.find(vertex3) != resultVertices.end());
-    REQUIRE( resultVertices.find(vertex4) != resultVertices.end());
-    REQUIRE( resultVertices.find(vertex5) != resultVertices.end());
-    REQUIRE( resultVertices.find(vertex6) != resultVertices.end());
-    REQUIRE( resultVertices.find(vertex7) != resultVertices.end());
-    REQUIRE( resultVertices.find(vertex8) != resultVertices.end());
-}
-
-
-
-// TEST_CASE("test graph getRandomVertex") {
-//     Graph g(false, true, 100000);
-//     Vertex in1("test_in1", "*");
-//     Vertex in2("test_in2", "*");
-//     Vertex center("test_center", "+");
-//     Vertex out1("test_out1", "*");
-//     Vertex out2("test_out2", "*");
-
-//     g.insertEdge(in1, center);
-//     g.insertEdge(in2, center);
-//     g.insertEdge(center, out1);
-//     g.insertEdge(center, out2);
-
-//     Vertex randomVertex1 = g.getRandomVertex();
-//     Vertex randomVertex2 = g.getRandomVertex();
-
-//     REQUIRE( randomVertex1 == randomVertex2 );
-// }
