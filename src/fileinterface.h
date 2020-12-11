@@ -1,8 +1,8 @@
 #include "scalarflow/sfg.h"
 
-class File
+class FileInterface
 {
     public:
-        File() { };
+        FileInterface() { };
         ScalarFlowGraph * getGraph();
 };

@@ -5,7 +5,7 @@
 %{
 
 #include "scalarflow/graph.h"
-#include "file.h"
+#include "fileinterface.h"
 #include <string>
 #include <map>
 
@@ -58,6 +58,6 @@ int yyFlexLexer::yywrap() {
   return 1;
 }
 
-ScalarFlowGraph * File::getGraph() {
+ScalarFlowGraph * FileInterface::getGraph() {
   return g;
 }

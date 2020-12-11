@@ -1,0 +1,3 @@
+# Final Results
+
+> **TL;DR:** We implemented what we said we would in our initial project goals document, as well a few additional things that we didn't have planned when we started. Our codebase is compilation is reproduceable and works across many devices and platforms. Towards the end of our project, we realized that the scope of our code was larger than the specific dataset we choose analyze, and refactored our code to work on general DAGs.

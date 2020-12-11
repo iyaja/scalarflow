@@ -7,7 +7,7 @@ PARSER = src/lexer.cpp
 PARSER_SRC = src/lexer.l
 
 # Add all object files needed for compiling:
-EXE_OBJ = src/parser.o
+EXE_OBJ = src/parser.o src/main.o
 OBJS = src/scalarflow/graph.o src/scalarflow/sfg.o src/main.o
 
 # Incldue scalarflow library directory
