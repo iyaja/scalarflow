@@ -12,8 +12,6 @@
 
 #include <iostream>
 
-using namespace std;
-
 int main(int argc, char** argv) {
 
     yyFlexLexer scanner(std::cin, std::cout);
@@ -28,8 +26,8 @@ int main(int argc, char** argv) {
 
     // g->print();
     g->compile();
-    map<Vertex, float> vals = g->evalAll();
-
+    // map<Vertex, float> vals = g->evalAll();
+    g->savePNG("simple");
     // for (std::pair<const Vertex,float> val : vals)
     // {
     //     cout << val.first.first << "\t" << val.second << endl;

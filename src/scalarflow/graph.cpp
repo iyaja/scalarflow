@@ -413,7 +413,8 @@ void Graph::savePNG(string title) const
         error("couldn't create " + filename + ".dot");
 
     neatoFile
-        << "strict graph G {\n"
+        << "digraph G {\n"
+        << "\trankdir=LR;\n"
         << "\toverlap=\"false\";\n"
         << "\tdpi=\"1300\";\n"
         << "\tsep=\"1.5\";\n"
@@ -423,14 +424,15 @@ void Graph::savePNG(string title) const
     vector<Vertex> allv = getVertices();
     //lambda expression
     sort(allv.begin(), allv.end(), [](const Vertex& lhs, const Vertex& rhs) {
-        return stoi(lhs.first.substr(3)) > stoi(rhs.first.substr(3));
+        // return stoi(lhs.first.substr(3)) > stoi(rhs.first.substr(3));
+        return (lhs.first.compare(rhs.first) > 0);
     });
 
     int xpos1 = 100;
     int xpos2 = 100;
     int xpos, ypos;
     for (auto it : allv) {
-        string current = it.first;
+        string current = it.first + ": " + it.second;
         neatoFile 
             << "\t\"" 
             << current
@@ -446,6 +448,13 @@ void Graph::savePNG(string title) const
             xpos2 += 100;
         }
         neatoFile << "[pos=\""<< xpos << "," << ypos <<"\"]";
+
+        if (it.second == "const")
+            neatoFile << "[color=\"blue\"]";
+        if (it.second == "output")
+            neatoFile << "[color=\"red\"]";
+        if (it.second == "input")
+            neatoFile << "[color=\"red\"]";
         neatoFile << ";\n";
     }
 
@@ -455,12 +464,12 @@ void Graph::savePNG(string title) const
     {
         for (auto it2 = it->second.begin(); it2 != it->second.end(); ++it2) 
         {
-            string vertex1Text = it->first.first;
-            string vertex2Text = it2->first.first;
+            string vertex1Text = it->first.first + ": " + it->first.second;
+            string vertex2Text = it2->first.first + ": " + it2->first.second;
 
             neatoFile << "\t\"" ;
             neatoFile << vertex1Text;
-            neatoFile << "\" -- \"" ;
+            neatoFile << "\" -> \"" ;
             neatoFile << vertex2Text;
             neatoFile << "\"";
 
@@ -475,13 +484,14 @@ void Graph::savePNG(string title) const
             if (weighted && it2->second.getWeight() != -1)
                 neatoFile << "[label=\"" << it2->second.getWeight() << "\"]";
             
-            neatoFile<< "[constraint = \"false\"]" << ";\n";
+            // neatoFile<< "[constraint = \"false\"]" << ";\n";
+            neatoFile << ";\n";
         }
     }
 
     neatoFile << "}";
     neatoFile.close();
-    string command = "neato -n -Tpng " + filename + " -o " + "images/" + title
+    string command = "dot -Tpng " + filename + " -o " + "images/" + title
                      + ".png 2> /dev/null";
     int result = system(command.c_str());
 
