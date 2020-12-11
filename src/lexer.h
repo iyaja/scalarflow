@@ -416,7 +416,7 @@ static int yy_flex_strlen ( const char * );
 #undef yyTABLES_NAME
 #endif
 
-#line 48 "src/lexer.l"
+#line 55 "src/lexer.l"
 
 
 #line 423 "src/lexer.h"

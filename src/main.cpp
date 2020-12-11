@@ -1,4 +1,12 @@
-#include "scalarflow/graph.h"
+/**
+ * @file graph.h
+ * ScalarFlow Graph Class Declarations
+ *
+ * @author Ajay Uppili Arasanipalai
+ *
+ */
+
+#include "scalarflow/sfg.h"
 #include "file.h"
 #include "lexer.h"
 
@@ -10,14 +18,21 @@ int main(int argc, char** argv) {
 
     yyFlexLexer scanner(std::cin, std::cout);
 
-    cout << "Parsing..." << endl;
+    // cout << "Parsing..." << endl;
 
     scanner.yylex();
     File file;
-    Graph * g = file.getGraph();
+    ScalarFlowGraph * g = file.getGraph();
 
-    cout << "Registered " << g->getVertices().size() <<  " nodes." << endl;
+    // cout << "Registered " << g->getVertices().size() <<  " nodes." << endl;
 
-    g->print();
+    // g->print();
+    g->compile();
+    map<Vertex, float> vals = g->evalAll();
+
+    // for (std::pair<const Vertex,float> val : vals)
+    // {
+    //     cout << val.first.first << "\t" << val.second << endl;
+    // }
 
 }

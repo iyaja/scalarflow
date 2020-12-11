@@ -8,6 +8,7 @@ typedef std::function<float(float,float)> Function;
 typedef std::string ID;
 
 typedef float f32;
+typedef vector<float> vf32;
 typedef int i32;
 
 #define REGISTER(id, expr) { id, [] (f32 a, f32 b) { return expr; } },
@@ -27,3 +28,24 @@ std::map<ID, Function> ops = {
     REGISTER("div", a / b)
 
 };
+
+
+// typedef std::function<float(vector<float>)> Function;
+
+// #define REGISTER(id, expr) { id, [] (vf32 x) { return expr; } },
+// #define INPUT(id) { id, [] (vf32 x) { f32 i; std::cin >> i; return i; } },
+// #define OUTPUT(id) { id, [] (vf32 x) { std::cout << x[0] << std::endl; return x[0]; } },
+// #define CONSTANT(id) { id, [] (vf32 x) { return x[0]; } },
+
+// std::map<ID, Function> ops = {
+
+//     INPUT("input")
+//     OUTPUT("output")
+//     CONSTANT("const")
+
+//     REGISTER("add", x[0] + x[1])
+//     REGISTER("mul", x[0] * x[1])
+//     REGISTER("sub", x[0] - x[1])
+//     REGISTER("div", x[0] / x[1])
+
+// };

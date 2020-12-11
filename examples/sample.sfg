@@ -1,4 +1,5 @@
-@input %a
-@input %b
+@const %a 3
+@const %b 2
 @add %c $a $b
-@output %d $c
+@mul %e $c $a
+@output %d $e

@@ -1,8 +1,8 @@
-#include "scalarflow/graph.h"
+#include "scalarflow/sfg.h"
 
 class File
 {
     public:
         File() { };
-        Graph * getGraph();
+        ScalarFlowGraph * getGraph();
 };

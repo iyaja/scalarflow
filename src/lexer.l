@@ -11,13 +11,13 @@
 
 using namespace std;
 
-Graph * g = new Graph(true, true);
+ScalarFlowGraph * g = new ScalarFlowGraph(true, true);
 
 std::map<std::string, Vertex> nodes;
 
 char* id;
 char* in;
-char* fname;
+string fname;
 string out;
 
 void addNode(string id, string fname) {
@@ -28,11 +28,17 @@ void addNode(string id, string fname) {
 }
 
 void addEdge(string in, string id) {
-  if (nodes.at(in).second == "input")
-    return;
   g->insertEdge(nodes.at(in), nodes.at(id));
 }
 
+void setFunction(string f) {
+  fname = f;
+}
+
+void storeConst(string val) {
+  Vertex v = { out, fname };
+  g->setValue(v, stof(val));
+}
 
 %}
 
@@ -40,9 +46,10 @@ void addEdge(string in, string id) {
 
 %%
 
-@[a-zA-Z]+          { fname = &yytext[1]; }
+@[a-zA-Z0-9]+          { setFunction(&yytext[1]); }
 %[a-zA-Z]+          { id = &yytext[1]; addNode(id, fname); }
 $[a-zA-Z]+          { in = &yytext[1]; addEdge(in, out); }
+[0-9]+[\.]*[0-9]*   { storeConst(yytext); }
 .                   {  }
 
 %%
@@ -51,6 +58,6 @@ int yyFlexLexer::yywrap() {
   return 1;
 }
 
-Graph * File::getGraph() {
+ScalarFlowGraph * File::getGraph() {
   return g;
 }
