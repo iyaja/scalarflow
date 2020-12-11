@@ -21,7 +21,7 @@ int main(int argc, char** argv) {
     }
 
     std::ifstream file(argv[1]);
-    yyFlexLexer scanner(file, std::cout);
+    yyFlexLexer scanner(&file);
 
     cout << "Parsing..." << endl;
 
