@@ -416,7 +416,7 @@ void Graph::savePNG(string title) const
         << "digraph G {\n"
         << "\trankdir=LR;\n"
         << "\toverlap=\"false\";\n"
-        << "\tdpi=\"1300\";\n"
+        << "\tdpi=\"400\";\n"
         << "\tsep=\"1.5\";\n"
         << "\tnode [fixedsize=\"true\", shape=\"circle\", fontsize=\"7.0\"];\n"
         << "\tedge [penwidth=\"1.5\", fontsize=\"7.0\"];\n";
@@ -448,6 +448,7 @@ void Graph::savePNG(string title) const
             xpos2 += 100;
         }
         neatoFile << "[pos=\""<< xpos << "," << ypos <<"\"]";
+        neatoFile << "[fontsize=\"4.0\"]";
 
         if (it.second == "const")
             neatoFile << "[color=\"blue\"]";
@@ -497,7 +498,7 @@ void Graph::savePNG(string title) const
 
 
     if (result == 0) {
-        cout << "Output graph saved as images/" << title << ".png" << endl;
+        cout << "INFO: output graph saved as images/" << title << ".png" << endl;
     } else {
         cout << "Failed to generate visual output graph using `neato`. Install `graphviz` or `neato` to generate a visual graph." << endl;
     }

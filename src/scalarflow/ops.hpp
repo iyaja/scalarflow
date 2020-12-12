@@ -13,7 +13,8 @@ typedef int i32;
 
 #define REGISTER(id, expr) { id, [] (f32 a, f32 b) { return expr; } },
 #define INPUT(id) { id, [] (f32 a, f32 b) { f32 x; std::cin >> x; return x; } },
-#define OUTPUT(id) { id, [] (f32 a, f32 b) { std::cout << a << std::endl; return a; } },
+// #define  OUTPUT(id) { id, [] (f32 a, f32 b) { std::cout << a << std::endl; return a; } },
+#define OUTPUT(id) { id, [] (f32 a, f32 b) { return a; } },
 #define CONSTANT(id) { id, [] (f32 a, f32 b) { return a; } },
 
 std::map<ID, Function> ops = {
