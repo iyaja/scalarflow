@@ -25,8 +25,7 @@ public:
     map<Vertex, float> eval(Vertex);
     map<Vertex, float> evalAll();
     vector<Edge> traverse(Vertex, string);
-    // vector<Edge> DFS(Vertex, Vertex);
-    // vector<Edge> BFS(Vertex, Vertex);
+    vector<Edge> traverseAll(string);
 
 private:
     Graph backGraph = Graph(false, true);
@@ -34,7 +33,7 @@ private:
     vector<Vertex> inodes;
     vector<Vertex> onodes;
     map<Vertex, float> values;
-    vector<Edge> trav;
+    vector<Edge> trav = {};
 
     void forward_(Vertex);
     float eval_(Vertex);

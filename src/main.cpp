@@ -50,7 +50,7 @@ int main(int argc, char **argv)
     cout << "INFO: Registered " << g->getVertices().size() << " nodes." << endl;
 
     // Save parsed graph
-    // g->savePNG("out");
+    g->savePNG("out");
 
     // "Compile" and optimze graph
     g->compile();
@@ -63,23 +63,20 @@ int main(int argc, char **argv)
     TIME(Values evalVals = g->evalAll())
     cout << "INFO: completed lazy eval in " << duration.count() << "ms" << endl;
 
-    // Choose node for starting point of traversal
-    Vertex source = g->getVertices().back();
-
     // Call and time DFS
-    TIME(vector<Edge> DFSPath = g->traverse(source, "DFS"))
+    TIME(vector<Edge> DFSPath = g->traverseAll("DFS"))
     cout << "INFO: DFS visited " << DFSPath.size() << " edges" << endl;
     cout << "INFO: completed depth-first search in " << duration.count() << "ms" << endl;
 
     // Call and time BFS
-    TIME(vector<Edge> BFSPath = g->traverse(source, "BFS"))
+    TIME(vector<Edge> BFSPath = g->traverseAll("BFS"))
     cout << "INFO: BFS visited " << BFSPath.size() << " edges" << endl;
     cout << "INFO: completed breadth-first search in " << duration.count() << "ms" << endl;
 
-    TIME(
-        int a = 0;
-        for (int i = 0; i < 99999; i++)
-            a += i / 3.4;
-    )
-    cout << "INFO: completed print-first search in " << duration.count() << "ms" << endl;
+    // TIME(
+    //     int a = 0;
+    //     for (int i = 0; i < 99999; i++)
+    //         a += i / 3.4;
+    // )
+    // cout << "INFO: completed print-first search in " << duration.count() << "ms" << endl;
 }
