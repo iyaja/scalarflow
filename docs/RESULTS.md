@@ -132,9 +132,63 @@ We did not expect BFS or DFS to favor any graph type specifically,
 
 #### Balanced
 
+![](balanced.sfg.png)
+
+```
+INFO: Registered 1200 nodes.
+INFO: output graph saved as images/data/balanced.sfg.png
+INFO: completed forward prop in 282ms
+INFO: completed lazy eval in 9ms
+INFO: DFS visited 2105 edges
+INFO: completed depth-first search in 26ms
+INFO: BFS visited 2105 edges
+INFO: completed breadth-first search in 37ms
+```
+
 #### More Input Nodes
 
+![](input_pressure.sfg.png)
+
+```
+INFO: Registered 1200 nodes.
+INFO: output graph saved as images/data/input_pressure.sfg.png
+INFO: completed forward prop in 84ms
+INFO: completed lazy eval in 2ms
+INFO: DFS visited 327 edges
+INFO: completed depth-first search in 13ms
+INFO: BFS visited 327 edges
+INFO: completed breadth-first search in 19ms
+```
+
 #### More Output Nodes
+
+![](output_pressure.sfg.png)
+
+```
+INFO: Registered 1199 nodes.
+INFO: output graph saved as images/data/output_pressure.sfg.png
+INFO: completed forward prop in 283ms
+INFO: completed lazy eval in 23ms
+INFO: DFS visited 2000 edges
+INFO: completed depth-first search in 11ms
+INFO: BFS visited 2000 edges
+INFO: completed breadth-first search in 14ms
+```
+
+#### More Compute Nodes
+
+![](compute_pressure.sfg.png)
+
+```
+INFO: Registered 1200 nodes.
+INFO: output graph saved as images/data/compute_pressure.sfg.png
+INFO: completed forward prop in 392ms
+INFO: completed lazy eval in 10ms
+INFO: DFS visited 11854 edges
+INFO: completed depth-first search in 72ms
+INFO: BFS visited 11854 edges
+INFO: completed breadth-first search in 81ms
+```
 
 ## Final thoughts
 
