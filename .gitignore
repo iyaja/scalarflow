@@ -3,6 +3,8 @@ lib/
 .cache/
 main
 test
+src/lexer.cpp
+src/lexer.h
 
 .vscode
 
