@@ -1,18 +1,19 @@
-# Final Results
+# Results
 
-> **TL;DR:** We implemented what we said we would in our initial project goals document, as well a few additional things that we didn't have planned when we started. Our codebase is compilation is reproduceable and works across many devices and platforms. Towards the end of our project, we realized that the scope of our code was larger than the specific dataset we choose analyze, and refactored our code to work on general DAGs.
+> **TL;DR:** We implemented our initial project goals as documented in `GOALS.md`, as well a few additional things that we didn't have planned when we started. Our compilation is reproduceable and works across many devices and platforms. Towards the end of our project, we realized that the scope of our code was larger than the specific dataset we choose analyze, and refactored our code accodingly to work on general DAGs.
 
-As stated in the GOALS, we've created a computational graph that implements a parser to generate them. Additionally, we implemented both BFS and DFS traversals, forward propagation, and reverse-mode evaluation algorithms. 
+For . These are directed acyclic graphs (DAG for short, which is what we'll call them for the remainder of this report) where each node represents a single function/operator/computation and each (directed and unweighted) edge represents the flow of values between nodes.
 
-## Main
-As specified in the README file, the main function could be executed with the following command
-```
-mkdir build
-cd build
-cmake ../
-cmake --build .
-```
-The user will pass in a file with the ".stg" extension, and the program will parse that file to generate the computational graph. If this was successful, the user could do implement different algorithms ranging from a basic graph's ability to traverse a graph to computing the values from the graph.
+Details on the build process, file format, and examples can be found on the README. Here, we focus on describing and analyzing our implemented algorithms.
+
+## Algorithms
+
+We implemented four core algorithms:
+
+1. BFS Traversal
+2. DFS Traversal
+3. Forward Propogation (Eager)
+4. Lazy Evaluation
 
 ## Parser
 Our graph parser is implemented in ... files. THe parser
