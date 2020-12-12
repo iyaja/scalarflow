@@ -1,6 +1,0 @@
-@const %a 3
-@const %b 2
-@add %c $a $b
-@mul %e $c $b
-@sub %f $a $e
-@output %d $f
