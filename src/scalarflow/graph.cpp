@@ -416,7 +416,7 @@ void Graph::savePNG(string title) const
         << "digraph G {\n"
         << "\trankdir=LR;\n"
         << "\toverlap=\"false\";\n"
-        << "\tdpi=\"400\";\n"
+        << "\tdpi=\"1300\";\n"
         << "\tsep=\"1.5\";\n"
         << "\tnode [fixedsize=\"true\", shape=\"circle\", fontsize=\"7.0\"];\n"
         << "\tedge [penwidth=\"1.5\", fontsize=\"7.0\"];\n";
