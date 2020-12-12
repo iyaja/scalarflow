@@ -10,6 +10,8 @@ ScalarFlow is a simple framework for working with computational graphs, which ar
 
 This file contains information about the build process, the executables generated, and the file format. For more information on the algorithms and implementation details, see [docs/RESULTS.md](docs/RESULTS.md).
 
+Final presentation video: https://youtu.be/uRL25R6BqTg
+
 ## Building
 
 Due to the very specific packages and versions of packages on EWS, we have separate build processes for EWS and the general case. The EWS build is not meant to be reproducible across devices -- it is guaranteed to work on EWS, and may or may not work on other systems.
