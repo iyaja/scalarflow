@@ -126,13 +126,15 @@ Code generation was also unplanned initially, but we are excited that we created
 
 Here, we summarize our experimental results on the graphs mentioned above. We analyzed a few computational graphs with different "presurres" and provide statistics below.
 
-Our initial hypothesis was that the graphs with more input nodes would work better with lazy evaluation, and those with many output nodes would compute their values faster with forward propogation.
+All graphs analyzed had the same number of nodes. The balanced graph has an equal number of all nodes, and the other variants hav 10x that node type as they do other nodes.
 
-We did not expect BFS or DFS to favor any graph type specifically, 
+Our initial hypothesis was that the graphs with more input nodes would work better with lazy evaluation, and those with many output nodes would compute their values faster with forward propogation. We did not expect BFS or DFS to favor any graph type specifically.
+
+Our results indicate that lazy evaluation is much more efficient than we thought it would be, but this could very well be a result of our specific implementation and the C++ compiler optimizations. 
+
+> Note: we wanted to include the images for the graphs used here, but they are too large. You can find the exact ones used in `docs/images/`
 
 #### Balanced
-
-![](balanced.sfg.png)
 
 ```
 INFO: Registered 1200 nodes.
@@ -147,8 +149,6 @@ INFO: completed breadth-first search in 37ms
 
 #### More Input Nodes
 
-![](input_pressure.sfg.png)
-
 ```
 INFO: Registered 1200 nodes.
 INFO: output graph saved as images/data/input_pressure.sfg.png
@@ -162,8 +162,6 @@ INFO: completed breadth-first search in 19ms
 
 #### More Output Nodes
 
-![](output_pressure.sfg.png)
-
 ```
 INFO: Registered 1199 nodes.
 INFO: output graph saved as images/data/output_pressure.sfg.png
@@ -176,8 +174,6 @@ INFO: completed breadth-first search in 14ms
 ```
 
 #### More Compute Nodes
-
-![](compute_pressure.sfg.png)
 
 ```
 INFO: Registered 1200 nodes.
