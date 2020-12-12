@@ -50,7 +50,7 @@ int main(int argc, char **argv)
     cout << "INFO: Registered " << g->getVertices().size() << " nodes." << endl;
 
     // Save parsed graph
-    g->savePNG("out");
+    g->savePNG(argv[1]);
 
     // "Compile" and optimze graph
     g->compile();
