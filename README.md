@@ -1,5 +1,7 @@
 <h1 align="center"> ScalarFlow: TensorFlow But Dumber</h1>
 
+<img align="center" src="images/out.png"/>
+
 ScalarFlow is a simple framework for working with computational graphs, which are represented by DAGs. The core components are:
 
     1. A library for running algorithms that are useful for computational graphs.
