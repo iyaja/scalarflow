@@ -47,9 +47,9 @@ void storeConst(string val) {
 %%
 
 @[a-zA-Z0-9]+          { setFunction(&yytext[1]); }
-%[a-zA-Z]+          { id = &yytext[1]; addNode(id, fname); }
-$[a-zA-Z]+          { in = &yytext[1]; addEdge(in, out); }
-[0-9]+[\.]*[0-9]*   { storeConst(yytext); }
+%[a-zA-Z0-9]+          { id = &yytext[1]; addNode(id, fname); }
+$[a-zA-Z0-9]+          { in = &yytext[1]; addEdge(in, out); }
+\s[0-9]+[\.]*[0-9]*   { storeConst(yytext); }
 .                   {  }
 
 %%
