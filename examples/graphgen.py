@@ -85,7 +85,7 @@ if __name__ == "__main__":
             combination_tuple_list.append((usedLabels[i], usedLabels[j]))
 
     # generate the function calls
-    for i in range(0, 100):
+    for i in range(0, 20):
         length = len(combination_tuple_list) - 1
         if (length == 0):
             break
