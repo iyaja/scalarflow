@@ -1,5 +1,5 @@
 # generate strategy
-# first of all, generate all the constants of computation graph
+# first, generate all the constants of computation graph
 
 # secondly, generate all the operator vertices of computation graph
 # 1. generate 100 random integers set and assign them "label" (may be uuid)
@@ -21,11 +21,11 @@ import os.path
 from os import path
 
 
-def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
+def genSym(size=6, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
 
-def writeConst(f, labelOfConst, actualNumber):
+def genConst(f, labelOfConst, actualNumber):
     f.write("@const ")
     f.write("%")
     f.write(labelOfConst + " ")
@@ -33,7 +33,7 @@ def writeConst(f, labelOfConst, actualNumber):
     f.write("\n")
 
 
-def writeOperator(f, labelOfOperator, operator, operand1, operand2):
+def genOp(f, labelOfOperator, operator, operand1, operand2):
     f.write("@" + operator + " ")
     f.write("%" + labelOfOperator + " ")
     f.write("$" + str(operand1) + " ")
@@ -41,7 +41,7 @@ def writeOperator(f, labelOfOperator, operator, operand1, operand2):
     f.write("\n")
 
 
-def writeOutput(f, labelOfOutput, usedLabel):
+def genOut(f, labelOfOutput, usedLabel):
     f.write("@output %" + labelOfOutput + " $" + usedLabel)
     f.write("\n")
 
@@ -69,9 +69,9 @@ if __name__ == "__main__":
 
     # generate the constants
     for i in range(0, 10):
-        generatedId = id_generator()
+        generatedId = genSym()
         randomNumber = random.randint(0, 10000)
-        writeConst(f, generatedId, randomNumber)
+        genConst(f, generatedId, randomNumber)
         random_integers_list.append(generatedId)
         usedLabels.append(generatedId)
 
@@ -84,7 +84,7 @@ if __name__ == "__main__":
         for j in range(j, length):
             combination_tuple_list.append((usedLabels[i], usedLabels[j]))
 
-    # generate the operators
+    # generate the function calls
     for i in range(0, 100):
         length = len(combination_tuple_list) - 1
         if (length == 0):
@@ -92,10 +92,10 @@ if __name__ == "__main__":
         randomIndex = random.randint(0, length)
         pickedCombination = combination_tuple_list[randomIndex]
         combination_tuple_list.remove(pickedCombination)
-        generatedId = id_generator()
+        generatedId = genSym()
         generatedOperator = operators[random.randint(0, 3)]
 
-        writeOperator(f, generatedId, generatedOperator, pickedCombination[0], pickedCombination[1])
+        genOp(f, generatedId, generatedOperator, pickedCombination[0], pickedCombination[1])
 
         usedLabels.append(generatedId)
         for elem in usedLabels:
@@ -103,9 +103,9 @@ if __name__ == "__main__":
                 combination_tuple_list.append((generatedId, elem))
 
     # generate outputs
-    for i in range(0, 5):
-        generatedId = id_generator()
-        writeOutput(f, generatedId, usedLabels[random.randint(0, len(usedLabels))])
+    # for i in range(0, 5):
+        # generatedId = genSym()
+        # genOut(f, generatedId, usedLabels[random.randint(0, len(usedLabels))])
 
     f.close()
 
